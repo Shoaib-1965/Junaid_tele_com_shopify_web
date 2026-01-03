@@ -1,0 +1,285 @@
+{% doc %}
+  @prompt
+    Create a slim Trust Signals strip just before the footer of the Shopify page.
+    Display 3 icons with short bold text below each:
+    🔍 Live Repair View – Watch us fix it
+    🔒 No Data Theft Guarantee – Your photos are safe
+    📦 Wholesale Parts Used – Best price guaranteed
+    Use minimal design, soft background color, and strong icons.
+    Purpose is to remove fear, build trust, and confirm professionalism before customer contact.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-trust-signals-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_vertical }}px 20px;
+  }
+
+  .ai-trust-signals-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: {{ block.settings.gap }}px;
+    flex-wrap: wrap;
+  }
+
+  .ai-trust-signal-item-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: {{ block.settings.icon_text_gap }}px;
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+  }
+
+  .ai-trust-signal-icon-{{ ai_gen_id }} {
+    font-size: {{ block.settings.icon_size }}px;
+    line-height: 1;
+  }
+
+  .ai-trust-signal-text-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-trust-signals-container-{{ ai_gen_id }} {
+      gap: {{ block.settings.gap_mobile }}px;
+    }
+
+    .ai-trust-signal-item-{{ ai_gen_id }} {
+      min-width: 150px;
+    }
+
+    .ai-trust-signal-icon-{{ ai_gen_id }} {
+      font-size: {{ block.settings.icon_size | times: 0.8 }}px;
+    }
+
+    .ai-trust-signal-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-trust-signals-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-trust-signals-container-{{ ai_gen_id }}">
+    {% if block.settings.signal_1_enabled %}
+      <div class="ai-trust-signal-item-{{ ai_gen_id }}">
+        <div class="ai-trust-signal-icon-{{ ai_gen_id }}">{{ block.settings.signal_1_icon }}</div>
+        <p class="ai-trust-signal-text-{{ ai_gen_id }}">{{ block.settings.signal_1_text }}</p>
+      </div>
+    {% endif %}
+
+    {% if block.settings.signal_2_enabled %}
+      <div class="ai-trust-signal-item-{{ ai_gen_id }}">
+        <div class="ai-trust-signal-icon-{{ ai_gen_id }}">{{ block.settings.signal_2_icon }}</div>
+        <p class="ai-trust-signal-text-{{ ai_gen_id }}">{{ block.settings.signal_2_text }}</p>
+      </div>
+    {% endif %}
+
+    {% if block.settings.signal_3_enabled %}
+      <div class="ai-trust-signal-item-{{ ai_gen_id }}">
+        <div class="ai-trust-signal-icon-{{ ai_gen_id }}">{{ block.settings.signal_3_icon }}</div>
+        <p class="ai-trust-signal-text-{{ ai_gen_id }}">{{ block.settings.signal_3_text }}</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust signals strip",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between items",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Gap on mobile",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "icon_text_gap",
+      "label": "Icon to text gap",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 24,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "header",
+      "content": "Signal 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "signal_1_enabled",
+      "label": "Enable signal 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "signal_1_icon",
+      "label": "Icon",
+      "default": "🔍"
+    },
+    {
+      "type": "text",
+      "id": "signal_1_text",
+      "label": "Text",
+      "default": "Live Repair View – Watch us fix it"
+    },
+    {
+      "type": "header",
+      "content": "Signal 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "signal_2_enabled",
+      "label": "Enable signal 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "signal_2_icon",
+      "label": "Icon",
+      "default": "🔒"
+    },
+    {
+      "type": "text",
+      "id": "signal_2_text",
+      "label": "Text",
+      "default": "No Data Theft Guarantee – Your photos are safe"
+    },
+    {
+      "type": "header",
+      "content": "Signal 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "signal_3_enabled",
+      "label": "Enable signal 3",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "signal_3_icon",
+      "label": "Icon",
+      "default": "📦"
+    },
+    {
+      "type": "text",
+      "id": "signal_3_text",
+      "label": "Text",
+      "default": "Wholesale Parts Used – Best price guaranteed"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust signals strip"
+    }
+  ]
+}
+{% endschema %}

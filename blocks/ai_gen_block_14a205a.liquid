@@ -1,0 +1,589 @@
+{% doc %}
+  @prompt
+    Design a premium Hero Section for a mobile repair service page named “The Interactive Repair Lab” for a Shopify store called Junaid Telecom.
+    
+    Use a high-quality image or silent video loop showing hands repairing a smartphone motherboard under a microscope. The visual should look technical, clean, and professional.
+    
+    Add a bold headline in the center:
+    “We Don’t Just Fix Phones, We Renew Them.”
+    
+    Sub-headline below:
+    Certified Hardware & Software Solutions in Chiniot. 30-Minute Turnaround for Minor Fixes.
+    
+    Add one strong primary CTA button:
+    “Get a Free Quote via WhatsApp”
+    
+    Button should be green, rounded, and linked to WhatsApp Business.
+    Design should feel trustworthy, modern, and optimized for mobile users.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-repair-hero-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: {{ block.settings.section_height_desktop }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: {{ block.settings.overlay_color }};
+  }
+
+  .ai-repair-hero__media-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .ai-repair-hero__media-{{ ai_gen_id }} img,
+  .ai-repair-hero__media-{{ ai_gen_id }} video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-repair-hero__media-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-repair-hero__media-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    opacity: 0.3;
+  }
+
+  .ai-repair-hero__overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: {{ block.settings.overlay_color }};
+    opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 2;
+  }
+
+  .ai-repair-hero__content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 40px 20px;
+    max-width: {{ block.settings.content_max_width }}px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .ai-repair-hero__badge-{{ ai_gen_id }} {
+    display: inline-block;
+    background-color: {{ block.settings.badge_bg_color }};
+    color: {{ block.settings.badge_text_color }};
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ai-repair-hero__heading-{{ ai_gen_id }} {
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size_desktop }}px;
+    line-height: 1.1;
+    font-weight: 700;
+    margin: 0 0 20px;
+    text-shadow: {{ block.settings.text_shadow_enabled | times: 1 }}px {{ block.settings.text_shadow_enabled | times: 2 }}px {{ block.settings.text_shadow_enabled | times: 4 }}px rgba(0, 0, 0, 0.3);
+  }
+
+  .ai-repair-hero__subheading-{{ ai_gen_id }} {
+    color: {{ block.settings.subheading_color }};
+    font-size: {{ block.settings.subheading_size_desktop }}px;
+    line-height: 1.5;
+    margin: 0 0 32px;
+    font-weight: 400;
+    text-shadow: {{ block.settings.text_shadow_enabled | times: 1 }}px {{ block.settings.text_shadow_enabled | times: 1 }}px {{ block.settings.text_shadow_enabled | times: 3 }}px rgba(0, 0, 0, 0.2);
+  }
+
+  .ai-repair-hero__cta-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background-color: {{ block.settings.cta_bg_color }};
+    color: {{ block.settings.cta_text_color }};
+    padding: 18px 36px;
+    border-radius: {{ block.settings.cta_border_radius }}px;
+    font-size: {{ block.settings.cta_font_size }}px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-repair-hero__cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.cta_hover_bg_color }};
+    color: {{ block.settings.cta_hover_text_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .ai-repair-hero__cta-icon-{{ ai_gen_id }} {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .ai-repair-hero__trust-badges-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .ai-repair-hero__trust-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: {{ block.settings.trust_badge_color }};
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .ai-repair-hero__trust-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-repair-hero-{{ ai_gen_id }} {
+      min-height: {{ block.settings.section_height_mobile }}px;
+    }
+
+    .ai-repair-hero__content-{{ ai_gen_id }} {
+      padding: 30px 16px;
+    }
+
+    .ai-repair-hero__badge-{{ ai_gen_id }} {
+      font-size: {{ block.settings.badge_font_size | times: 0.85 }}px;
+      padding: 6px 16px;
+      margin-bottom: 16px;
+    }
+
+    .ai-repair-hero__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size_mobile }}px;
+      margin-bottom: 16px;
+    }
+
+    .ai-repair-hero__subheading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subheading_size_mobile }}px;
+      margin-bottom: 24px;
+    }
+
+    .ai-repair-hero__cta-{{ ai_gen_id }} {
+      padding: 16px 28px;
+      font-size: {{ block.settings.cta_font_size | times: 0.9 }}px;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .ai-repair-hero__trust-badges-{{ ai_gen_id }} {
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .ai-repair-hero__trust-item-{{ ai_gen_id }} {
+      font-size: 12px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-repair-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-repair-hero__media-{{ ai_gen_id }}">
+    {% if block.settings.media_type == 'video' and block.settings.video_url != blank %}
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        aria-label="{{ block.settings.heading | strip_html }}"
+      >
+        <source src="{{ block.settings.video_url }}" type="video/mp4">
+      </video>
+    {% elsif block.settings.hero_image %}
+      <img
+        src="{{ block.settings.hero_image | image_url: width: 2000 }}"
+        alt="{{ block.settings.hero_image.alt | default: block.settings.heading | strip_html }}"
+        loading="eager"
+        width="{{ block.settings.hero_image.width }}"
+        height="{{ block.settings.hero_image.height }}"
+      >
+    {% else %}
+      <div class="ai-repair-hero__media-placeholder-{{ ai_gen_id }}">
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ai-repair-hero__overlay-{{ ai_gen_id }}"></div>
+
+  <div class="ai-repair-hero__content-{{ ai_gen_id }}">
+    {% if block.settings.show_badge and block.settings.badge_text != blank %}
+      <div class="ai-repair-hero__badge-{{ ai_gen_id }}">
+        {{ block.settings.badge_text }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.heading != blank %}
+      <h1 class="ai-repair-hero__heading-{{ ai_gen_id }}">
+        {{ block.settings.heading }}
+      </h1>
+    {% endif %}
+
+    {% if block.settings.subheading != blank %}
+      <div class="ai-repair-hero__subheading-{{ ai_gen_id }}">
+        {{ block.settings.subheading }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.cta_text != blank %}
+      <a
+        href="{{ block.settings.cta_link }}"
+        class="ai-repair-hero__cta-{{ ai_gen_id }}"
+        {% if block.settings.cta_link contains 'whatsapp' %}
+          target="_blank"
+          rel="noopener noreferrer"
+        {% endif %}
+      >
+        <svg class="ai-repair-hero__cta-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+        {{ block.settings.cta_text }}
+      </a>
+    {% endif %}
+
+    {% if block.settings.show_trust_badges %}
+      <div class="ai-repair-hero__trust-badges-{{ ai_gen_id }}">
+        <div class="ai-repair-hero__trust-item-{{ ai_gen_id }}">
+          <svg class="ai-repair-hero__trust-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          <span>Certified Technicians</span>
+        </div>
+        <div class="ai-repair-hero__trust-item-{{ ai_gen_id }}">
+          <svg class="ai-repair-hero__trust-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>30-Min Quick Fix</span>
+        </div>
+        <div class="ai-repair-hero__trust-item-{{ ai_gen_id }}">
+          <svg class="ai-repair-hero__trust-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Warranty Included</span>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Repair lab hero",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "select",
+      "id": "media_type",
+      "label": "Media type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Background image"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL"
+    },
+    {
+      "type": "range",
+      "id": "section_height_desktop",
+      "label": "Desktop height",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "default": 650
+    },
+    {
+      "type": "range",
+      "id": "section_height_mobile",
+      "label": "Mobile height",
+      "min": 400,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Text",
+      "default": "The Interactive Repair Lab"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Background",
+      "default": "#25D366"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Text",
+      "default": "We Don't Just Fix Phones, We Renew Them."
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Desktop size",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Mobile size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Subheading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Text",
+      "default": "Certified Hardware & Software Solutions in Chiniot. 30-Minute Turnaround for Minor Fixes."
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_desktop",
+      "label": "Desktop size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_mobile",
+      "label": "Mobile size",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Color",
+      "default": "#E0E0E0"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Get a Free Quote via WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "cta_font_size",
+      "label": "Font size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "cta_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "cta_bg_color",
+      "label": "Background",
+      "default": "#25D366"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "cta_hover_bg_color",
+      "label": "Hover background",
+      "default": "#1EBE57"
+    },
+    {
+      "type": "color",
+      "id": "cta_hover_text_color",
+      "label": "Hover text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Content settings"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Max width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "checkbox",
+      "id": "text_shadow_enabled",
+      "label": "Enable text shadow",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Show trust badges",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "trust_badge_color",
+      "label": "Trust badge color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Repair lab hero"
+    }
+  ]
+}
+{% endschema %}

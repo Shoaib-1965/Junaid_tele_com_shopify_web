@@ -1,0 +1,620 @@
+{% doc %}
+  @prompt
+    Create a modern foldable (accordion-style) product description section with smooth open/close animation. Use clean typography and soft blue shadow highlights on hover. Below it, add a product reviews section that displays star ratings only (★★★★★) without text reviews. Stars should glow subtly on hover, use a premium blue gradient, and feel minimal, fast, and mobile-friendly. Design should look professional, e-commerce ready, and conversion-focused.
+{% enddoc %}
+```liquid
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-accordion-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-accordion-container-{{ ai_gen_id }} {
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }} {
+    border-bottom: 1px solid {{ block.settings.border_color }};
+    transition: all 0.3s ease;
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }}:last-child {
+    border-bottom: none;
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }}:hover {
+    box-shadow: 0 4px 12px {{ block.settings.shadow_color }};
+  }
+
+  .ai-accordion-header-{{ ai_gen_id }} {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: {{ block.settings.item_padding }}px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-accordion-header-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.hover_background }};
+  }
+
+  .ai-accordion-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.title_color }};
+    margin: 0;
+  }
+
+  .ai-accordion-icon-{{ ai_gen_id }} {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .ai-accordion-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    stroke: {{ block.settings.icon_color }};
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }}.active .ai-accordion-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-accordion-content-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+
+  .ai-accordion-item-{{ ai_gen_id }}.active .ai-accordion-content-{{ ai_gen_id }} {
+    max-height: 1000px;
+  }
+
+  .ai-accordion-content-inner-{{ ai_gen_id }} {
+    padding: 0 {{ block.settings.item_padding }}px {{ block.settings.item_padding }}px;
+    font-size: {{ block.settings.content_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.content_color }};
+  }
+
+  .ai-reviews-section-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.reviews_spacing }}px;
+    padding: {{ block.settings.reviews_padding }}px;
+    background-color: {{ block.settings.reviews_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    text-align: center;
+  }
+
+  .ai-reviews-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.reviews_title_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.reviews_title_spacing }}px;
+  }
+
+  .ai-stars-container-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: {{ block.settings.star_spacing }}px;
+  }
+
+  .ai-star-{{ ai_gen_id }} {
+    width: {{ block.settings.star_size }}px;
+    height: {{ block.settings.star_size }}px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 0px {{ block.settings.star_glow_color }});
+  }
+
+  .ai-star-{{ ai_gen_id }}:hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px {{ block.settings.star_glow_color }});
+  }
+
+  .ai-star-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ai-star-filled-{{ ai_gen_id }} {
+    fill: url(#ai-star-gradient-{{ ai_gen_id }});
+  }
+
+  .ai-star-empty-{{ ai_gen_id }} {
+    fill: {{ block.settings.star_empty_color }};
+  }
+
+  .ai-rating-text-{{ ai_gen_id }} {
+    margin-top: {{ block.settings.rating_text_spacing }}px;
+    font-size: {{ block.settings.rating_text_size }}px;
+    color: {{ block.settings.content_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-accordion-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.9 }}px;
+    }
+
+    .ai-accordion-content-inner-{{ ai_gen_id }} {
+      font-size: {{ block.settings.content_size | times: 0.9 }}px;
+    }
+
+    .ai-star-{{ ai_gen_id }} {
+      width: {{ block.settings.star_size | times: 0.8 }}px;
+      height: {{ block.settings.star_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<product-accordion-{{ ai_gen_id }} class="ai-product-accordion-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-accordion-container-{{ ai_gen_id }}">
+    {% if block.settings.show_description and product.description != blank %}
+      <div class="ai-accordion-item-{{ ai_gen_id }}" data-accordion-item>
+        <button class="ai-accordion-header-{{ ai_gen_id }}" aria-expanded="false">
+          <h3 class="ai-accordion-title-{{ ai_gen_id }}">{{ block.settings.description_title }}</h3>
+          <span class="ai-accordion-icon-{{ ai_gen_id }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </button>
+        <div class="ai-accordion-content-{{ ai_gen_id }}">
+          <div class="ai-accordion-content-inner-{{ ai_gen_id }}">
+            {{ product.description }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_specifications and block.settings.specifications_content != blank %}
+      <div class="ai-accordion-item-{{ ai_gen_id }}" data-accordion-item>
+        <button class="ai-accordion-header-{{ ai_gen_id }}" aria-expanded="false">
+          <h3 class="ai-accordion-title-{{ ai_gen_id }}">{{ block.settings.specifications_title }}</h3>
+          <span class="ai-accordion-icon-{{ ai_gen_id }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </button>
+        <div class="ai-accordion-content-{{ ai_gen_id }}">
+          <div class="ai-accordion-content-inner-{{ ai_gen_id }}">
+            {{ block.settings.specifications_content }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_shipping and block.settings.shipping_content != blank %}
+      <div class="ai-accordion-item-{{ ai_gen_id }}" data-accordion-item>
+        <button class="ai-accordion-header-{{ ai_gen_id }}" aria-expanded="false">
+          <h3 class="ai-accordion-title-{{ ai_gen_id }}">{{ block.settings.shipping_title }}</h3>
+          <span class="ai-accordion-icon-{{ ai_gen_id }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </button>
+        <div class="ai-accordion-content-{{ ai_gen_id }}">
+          <div class="ai-accordion-content-inner-{{ ai_gen_id }}">
+            {{ block.settings.shipping_content }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if block.settings.show_reviews %}
+    <div class="ai-reviews-section-{{ ai_gen_id }}">
+      <h3 class="ai-reviews-title-{{ ai_gen_id }}">{{ block.settings.reviews_title }}</h3>
+      <div class="ai-stars-container-{{ ai_gen_id }}">
+        <svg style="position: absolute; width: 0; height: 0;">
+          <defs>
+            <linearGradient id="ai-star-gradient-{{ ai_gen_id }}" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:{{ block.settings.star_gradient_start }};stop-opacity:1" />
+              <stop offset="100%" style="stop-color:{{ block.settings.star_gradient_end }};stop-opacity:1" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {% for i in (1..5) %}
+          {% if i <= block.settings.rating_value %}
+            <span class="ai-star-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="ai-star-filled-{{ ai_gen_id }}">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </span>
+          {% else %}
+            <span class="ai-star-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="ai-star-empty-{{ ai_gen_id }}">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if block.settings.show_rating_text %}
+        <p class="ai-rating-text-{{ ai_gen_id }}">{{ block.settings.rating_value }} out of 5 stars</p>
+      {% endif %}
+    </div>
+  {% endif %}
+</product-accordion-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductAccordion{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.accordionItems = this.querySelectorAll('[data-accordion-item]');
+        this.setupAccordion();
+      }
+
+      setupAccordion() {
+        this.accordionItems.forEach((item) => {
+          const header = item.querySelector('.ai-accordion-header-{{ ai_gen_id }}');
+          const content = item.querySelector('.ai-accordion-content-{{ ai_gen_id }}');
+
+          header.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+
+            if (isActive) {
+              item.classList.remove('active');
+              header.setAttribute('aria-expanded', 'false');
+            } else {
+              item.classList.add('active');
+              header.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      }
+    }
+
+    customElements.define('product-accordion-{{ ai_gen_id }}', ProductAccordion{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Accordion & reviews",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Accordion settings"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "item_padding",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Item padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "description_title",
+      "label": "Description title",
+      "default": "Product Description"
+    },
+    {
+      "type": "header",
+      "content": "Specifications"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_specifications",
+      "label": "Show specifications",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "specifications_title",
+      "label": "Specifications title",
+      "default": "Specifications"
+    },
+    {
+      "type": "richtext",
+      "id": "specifications_content",
+      "label": "Specifications content",
+      "default": "<p>Add your product specifications here.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Shipping"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping",
+      "label": "Show shipping",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_title",
+      "label": "Shipping title",
+      "default": "Shipping & Returns"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_content",
+      "label": "Shipping content",
+      "default": "<p>Free shipping on orders over $50. 30-day return policy.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "content_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Content size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "hover_background",
+      "label": "Hover background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "content_color",
+      "label": "Content",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow",
+      "default": "#0066ff1a"
+    },
+    {
+      "type": "header",
+      "content": "Reviews section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show reviews",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reviews_title",
+      "label": "Reviews title",
+      "default": "Customer Rating"
+    },
+    {
+      "type": "range",
+      "id": "reviews_title_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "reviews_spacing",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Top spacing",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "reviews_padding",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "reviews_title_spacing",
+      "min": 10,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Title bottom spacing",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "reviews_background",
+      "label": "Background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "header",
+      "content": "Star settings"
+    },
+    {
+      "type": "range",
+      "id": "rating_value",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "label": "Rating value",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Star size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "star_spacing",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Star spacing",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "star_gradient_start",
+      "label": "Star gradient start",
+      "default": "#0066ff"
+    },
+    {
+      "type": "color",
+      "id": "star_gradient_end",
+      "label": "Star gradient end",
+      "default": "#00ccff"
+    },
+    {
+      "type": "color",
+      "id": "star_empty_color",
+      "label": "Empty star",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "star_glow_color",
+      "label": "Glow color",
+      "default": "#0066ff"
+    },
+    {
+      "type": "header",
+      "content": "Rating text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating_text",
+      "label": "Show rating text",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rating_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "rating_text_spacing",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Top spacing",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Accordion & reviews"
+    }
+  ]
+}
+{% endschema %}
+```

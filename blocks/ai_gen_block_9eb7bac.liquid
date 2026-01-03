@@ -1,0 +1,675 @@
+{% doc %}
+  @prompt
+    Create an interactive “Choose Your Problem” section for a Shopify mobile repair service page by Junaid Telecom.
+    
+    Display a grid of large, clickable 3D-style icon cards that work smoothly on mobile and desktop screens.
+    
+    Include the following icons with labels:
+    📱 Broken Screen
+    🔋 Battery Issue
+    💧 Water Damage
+    🔓 Software / Unlock
+    🔌 Charging Port
+    
+    Each icon should appear as a 3D card with:
+    
+    Soft depth and elevation
+    
+    Realistic light and shadow
+    
+    Slight bevel or rounded edges
+    
+    Subtle hover animation (lift-up, glow, or tilt effect)
+    
+    Use a clean, modern color palette with light reflections to enhance the 3D feel without making it heavy.
+    
+    When a user clicks an icon, apply smooth scrolling to the relevant pricing section below.
+    
+    The overall design should feel like a digital repair menu, simple, fast, premium, and user-friendly, encouraging users to explore repair options confidently.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-repair-selector-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    background: {{ block.settings.background_color }};
+  }
+
+  .ai-repair-selector__container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-repair-selector__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-repair-selector__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+
+  .ai-repair-selector__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheading_size }}px;
+    color: {{ block.settings.subheading_color }};
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .ai-repair-selector__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: {{ block.settings.card_spacing }}px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ai-repair-selector__card-{{ ai_gen_id }} {
+    position: relative;
+    background: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid {{ block.settings.card_border_color }};
+    box-shadow: 
+      0 4px 6px {{ block.settings.shadow_color }}0d,
+      0 10px 20px {{ block.settings.shadow_color }}08,
+      inset 0 1px 0 {{ block.settings.card_highlight }};
+    transform: translateY(0) scale(1);
+    overflow: hidden;
+  }
+
+  .ai-repair-selector__card-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, {{ block.settings.card_highlight }} 0%, rgba(255,255,255,0) 100%);
+    opacity: 0.6;
+    pointer-events: none;
+    border-radius: {{ block.settings.card_border_radius }}px {{ block.settings.card_border_radius }}px 0 0;
+  }
+
+  .ai-repair-selector__card-{{ ai_gen_id }}:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 12px 24px {{ block.settings.shadow_color }}15,
+      0 20px 40px {{ block.settings.shadow_color }}12,
+      inset 0 1px 0 {{ block.settings.card_highlight }},
+      0 0 0 2px {{ block.settings.card_accent_color }};
+  }
+
+  .ai-repair-selector__card-{{ ai_gen_id }}:active {
+    transform: translateY(-4px) scale(0.98);
+  }
+
+  .ai-repair-selector__icon-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    margin: 0 auto 16px;
+    background: {{ block.settings.icon_background }};
+    border-radius: 50%;
+    box-shadow: 
+      0 4px 8px {{ block.settings.shadow_color }}10,
+      inset 0 2px 4px {{ block.settings.card_highlight }};
+    transition: all 0.3s ease;
+  }
+
+  .ai-repair-selector__card-{{ ai_gen_id }}:hover .ai-repair-selector__icon-wrapper-{{ ai_gen_id }} {
+    transform: scale(1.1) rotateY(10deg);
+    box-shadow: 
+      0 8px 16px {{ block.settings.shadow_color }}20,
+      inset 0 2px 4px {{ block.settings.card_highlight }};
+  }
+
+  .ai-repair-selector__icon-{{ ai_gen_id }} {
+    font-size: {{ block.settings.icon_size | times: 0.5 }}px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px {{ block.settings.shadow_color }}20);
+  }
+
+  .ai-repair-selector__label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.label_color }};
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+
+  .ai-repair-selector__card-{{ ai_gen_id }}:hover .ai-repair-selector__label-{{ ai_gen_id }} {
+    color: {{ block.settings.label_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-repair-selector__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: {{ block.settings.card_spacing | times: 0.7 }}px;
+    }
+
+    .ai-repair-selector__card-{{ ai_gen_id }} {
+      padding: 24px 16px;
+    }
+
+    .ai-repair-selector__icon-wrapper-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.8 }}px;
+      height: {{ block.settings.icon_size | times: 0.8 }}px;
+    }
+
+    .ai-repair-selector__icon-{{ ai_gen_id }} {
+      font-size: {{ block.settings.icon_size | times: 0.4 }}px;
+    }
+
+    .ai-repair-selector__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.7 }}px;
+    }
+
+    .ai-repair-selector__subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subheading_size | times: 0.9 }}px;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .ai-repair-selector__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+{% endstyle %}
+
+<repair-problem-selector-{{ ai_gen_id }}
+  class="ai-repair-selector-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-repair-selector__container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank or block.settings.subheading != blank %}
+      <div class="ai-repair-selector__header-{{ ai_gen_id }}">
+        {% if block.settings.heading != blank %}
+          <h2 class="ai-repair-selector__title-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+        {% endif %}
+        {% if block.settings.subheading != blank %}
+          <p class="ai-repair-selector__subtitle-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <ul class="ai-repair-selector__grid-{{ ai_gen_id }}">
+      {% if block.settings.show_broken_screen %}
+        <li>
+          <button
+            class="ai-repair-selector__card-{{ ai_gen_id }}"
+            data-problem="broken-screen"
+            data-target="{{ block.settings.broken_screen_target }}"
+            aria-label="Select broken screen repair"
+          >
+            <div class="ai-repair-selector__icon-wrapper-{{ ai_gen_id }}">
+              <span class="ai-repair-selector__icon-{{ ai_gen_id }}">📱</span>
+            </div>
+            <p class="ai-repair-selector__label-{{ ai_gen_id }}">{{ block.settings.broken_screen_label }}</p>
+          </button>
+        </li>
+      {% endif %}
+
+      {% if block.settings.show_battery %}
+        <li>
+          <button
+            class="ai-repair-selector__card-{{ ai_gen_id }}"
+            data-problem="battery"
+            data-target="{{ block.settings.battery_target }}"
+            aria-label="Select battery issue repair"
+          >
+            <div class="ai-repair-selector__icon-wrapper-{{ ai_gen_id }}">
+              <span class="ai-repair-selector__icon-{{ ai_gen_id }}">🔋</span>
+            </div>
+            <p class="ai-repair-selector__label-{{ ai_gen_id }}">{{ block.settings.battery_label }}</p>
+          </button>
+        </li>
+      {% endif %}
+
+      {% if block.settings.show_water_damage %}
+        <li>
+          <button
+            class="ai-repair-selector__card-{{ ai_gen_id }}"
+            data-problem="water-damage"
+            data-target="{{ block.settings.water_damage_target }}"
+            aria-label="Select water damage repair"
+          >
+            <div class="ai-repair-selector__icon-wrapper-{{ ai_gen_id }}">
+              <span class="ai-repair-selector__icon-{{ ai_gen_id }}">💧</span>
+            </div>
+            <p class="ai-repair-selector__label-{{ ai_gen_id }}">{{ block.settings.water_damage_label }}</p>
+          </button>
+        </li>
+      {% endif %}
+
+      {% if block.settings.show_software %}
+        <li>
+          <button
+            class="ai-repair-selector__card-{{ ai_gen_id }}"
+            data-problem="software"
+            data-target="{{ block.settings.software_target }}"
+            aria-label="Select software or unlock repair"
+          >
+            <div class="ai-repair-selector__icon-wrapper-{{ ai_gen_id }}">
+              <span class="ai-repair-selector__icon-{{ ai_gen_id }}">🔓</span>
+            </div>
+            <p class="ai-repair-selector__label-{{ ai_gen_id }}">{{ block.settings.software_label }}</p>
+          </button>
+        </li>
+      {% endif %}
+
+      {% if block.settings.show_charging_port %}
+        <li>
+          <button
+            class="ai-repair-selector__card-{{ ai_gen_id }}"
+            data-problem="charging-port"
+            data-target="{{ block.settings.charging_port_target }}"
+            aria-label="Select charging port repair"
+          >
+            <div class="ai-repair-selector__icon-wrapper-{{ ai_gen_id }}">
+              <span class="ai-repair-selector__icon-{{ ai_gen_id }}">🔌</span>
+            </div>
+            <p class="ai-repair-selector__label-{{ ai_gen_id }}">{{ block.settings.charging_port_label }}</p>
+          </button>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</repair-problem-selector-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class RepairProblemSelector{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.cards = this.querySelectorAll('.ai-repair-selector__card-{{ ai_gen_id }}');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.cards.forEach((card) => {
+          card.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = card.getAttribute('data-target');
+            
+            if (target) {
+              const targetElement = document.querySelector(target);
+              
+              if (targetElement) {
+                const offset = {{ block.settings.scroll_offset }};
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                window.scrollTo({
+                  top: offsetPosition,
+                  behavior: 'smooth'
+                });
+
+                if (targetElement.hasAttribute('tabindex')) {
+                  targetElement.focus();
+                } else {
+                  targetElement.setAttribute('tabindex', '-1');
+                  targetElement.focus();
+                  targetElement.addEventListener('blur', function() {
+                    targetElement.removeAttribute('tabindex');
+                  }, { once: true });
+                }
+              }
+            }
+          });
+
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.click();
+            }
+          });
+        });
+      }
+    }
+
+    customElements.define('repair-problem-selector-{{ ai_gen_id }}', RepairProblemSelector{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Choose your problem",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Choose Your Problem"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Select the repair service you need"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "card_spacing",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card spacing",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "card_highlight",
+      "label": "Card highlight",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_accent_color",
+      "label": "Hover accent",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Icon style"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 60,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 80
+    },
+    {
+      "type": "color",
+      "id": "icon_background",
+      "label": "Icon background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Label style"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Label size",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "label_hover_color",
+      "label": "Label hover color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Broken screen"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_broken_screen",
+      "label": "Show broken screen",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "broken_screen_label",
+      "label": "Label",
+      "default": "Broken Screen"
+    },
+    {
+      "type": "text",
+      "id": "broken_screen_target",
+      "label": "Scroll target",
+      "info": "CSS selector (e.g., #pricing-section)"
+    },
+    {
+      "type": "header",
+      "content": "Battery issue"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_battery",
+      "label": "Show battery issue",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "battery_label",
+      "label": "Label",
+      "default": "Battery Issue"
+    },
+    {
+      "type": "text",
+      "id": "battery_target",
+      "label": "Scroll target",
+      "info": "CSS selector (e.g., #pricing-section)"
+    },
+    {
+      "type": "header",
+      "content": "Water damage"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_water_damage",
+      "label": "Show water damage",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "water_damage_label",
+      "label": "Label",
+      "default": "Water Damage"
+    },
+    {
+      "type": "text",
+      "id": "water_damage_target",
+      "label": "Scroll target",
+      "info": "CSS selector (e.g., #pricing-section)"
+    },
+    {
+      "type": "header",
+      "content": "Software / Unlock"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_software",
+      "label": "Show software / unlock",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "software_label",
+      "label": "Label",
+      "default": "Software / Unlock"
+    },
+    {
+      "type": "text",
+      "id": "software_target",
+      "label": "Scroll target",
+      "info": "CSS selector (e.g., #pricing-section)"
+    },
+    {
+      "type": "header",
+      "content": "Charging port"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_charging_port",
+      "label": "Show charging port",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "charging_port_label",
+      "label": "Label",
+      "default": "Charging Port"
+    },
+    {
+      "type": "text",
+      "id": "charging_port_target",
+      "label": "Scroll target",
+      "info": "CSS selector (e.g., #pricing-section)"
+    },
+    {
+      "type": "header",
+      "content": "Scroll behavior"
+    },
+    {
+      "type": "range",
+      "id": "scroll_offset",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Scroll offset",
+      "default": 80,
+      "info": "Space from top when scrolling to target"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Choose your problem"
+    }
+  ]
+}
+{% endschema %}

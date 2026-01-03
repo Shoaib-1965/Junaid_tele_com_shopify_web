@@ -1,0 +1,473 @@
+{% doc %}
+  @prompt
+    Create a custom Shopify section for a collection page with an editable collection title, description, and featured image.
+    
+    Text Effects (Title & Description):
+    
+    Add a blue shining glow effect that reacts to mouse movement
+    
+    The glow should follow the cursor smoothly using a radial or linear gradient light
+    
+    Glow color: soft to bright electric blue
+    
+    Intensity increases slightly on hover and fades when the cursor leaves
+    
+    Text remains fully readable at all times (no harsh glow)
+    
+    Image Effects:
+    
+    Subtle zoom-in or lift effect on hover
+    
+    Smooth shadow elevation for depth
+    
+    Optional soft blue highlight around image edges
+    
+    Animations:
+    
+    Section content animates on scroll (fade-in + slight slide)
+    
+    Hover transitions should be smooth (0.3s–0.6s ease)
+    
+    No aggressive or distracting motion
+    
+    Interaction & Feel:
+    
+    Cursor-based effects should feel premium, fluid, and modern
+    
+    Micro-interactions should enhance focus without overwhelming the design
+    
+    Effects must perform well on desktop and degrade gracefully on mobile
+    
+    Layout & Responsiveness:
+    
+    Two-column layout on desktop (text and image side by side)
+    
+    Stacked layout on mobile
+    
+    Clean spacing, modern typography, and balanced alignment
+    
+    Technical Requirements:
+    
+    Shopify Liquid compatible custom section
+    
+    Editable settings for title, description, and image
+    
+    SEO-friendly markup and optimized performance
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-collection-hero-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+    overflow: hidden;
+  }
+
+  .ai-collection-hero-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .ai-collection-hero-container-{{ ai_gen_id }}.ai-visible-{{ ai_gen_id }} {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ai-collection-hero-content-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .ai-collection-hero-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 20px;
+    line-height: 1.2;
+    position: relative;
+    cursor: default;
+    transition: color 0.3s ease;
+  }
+
+  .ai-collection-hero-title-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(
+      circle,
+      {{ block.settings.glow_color }}80 0%,
+      {{ block.settings.glow_color }}40 30%,
+      transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
+    border-radius: 50%;
+    filter: blur(20px);
+    z-index: -1;
+  }
+
+  .ai-collection-hero-title-{{ ai_gen_id }}:hover::before {
+    opacity: {{ block.settings.glow_intensity | divided_by: 100.0 }};
+    width: 300px;
+    height: 300px;
+  }
+
+  .ai-collection-hero-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.6;
+    margin: 0;
+    position: relative;
+    cursor: default;
+    transition: color 0.3s ease;
+  }
+
+  .ai-collection-hero-description-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(
+      circle,
+      {{ block.settings.glow_color }}60 0%,
+      {{ block.settings.glow_color }}30 30%,
+      transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
+    border-radius: 50%;
+    filter: blur(15px);
+    z-index: -1;
+  }
+
+  .ai-collection-hero-description-{{ ai_gen_id }}:hover::before {
+    opacity: {{ block.settings.glow_intensity | divided_by: 100.0 | times: 0.8 }};
+    width: 250px;
+    height: 250px;
+  }
+
+  .ai-collection-hero-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+  }
+
+  .ai-collection-hero-image-wrapper-{{ ai_gen_id }}:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15),
+                0 0 30px {{ block.settings.glow_color }}30;
+  }
+
+  .ai-collection-hero-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .ai-collection-hero-image-wrapper-{{ ai_gen_id }}:hover .ai-collection-hero-image-{{ ai_gen_id }} {
+    transform: scale(1.05);
+  }
+
+  .ai-collection-hero-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-collection-hero-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-collection-hero-container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .ai-collection-hero-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+
+    .ai-collection-hero-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_size | times: 0.9 }}px;
+    }
+
+    .ai-collection-hero-title-{{ ai_gen_id }}::before,
+    .ai-collection-hero-description-{{ ai_gen_id }}::before {
+      display: none;
+    }
+
+    .ai-collection-hero-image-wrapper-{{ ai_gen_id }}:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+  }
+{% endstyle %}
+
+<collection-hero-{{ ai_gen_id }}
+  class="ai-collection-hero-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-collection-hero-container-{{ ai_gen_id }}">
+    <div class="ai-collection-hero-content-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h1 class="ai-collection-hero-title-{{ ai_gen_id }}">
+          {{ block.settings.title }}
+        </h1>
+      {% endif %}
+
+      {% if block.settings.description != blank %}
+        <div class="ai-collection-hero-description-{{ ai_gen_id }}">
+          {{ block.settings.description }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-collection-hero-image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.featured_image %}
+        <img
+          src="{{ block.settings.featured_image | image_url: width: 1200 }}"
+          alt="{{ block.settings.featured_image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.featured_image.width }}"
+          height="{{ block.settings.featured_image.height }}"
+          class="ai-collection-hero-image-{{ ai_gen_id }}"
+        >
+      {% else %}
+        <div class="ai-collection-hero-image-placeholder-{{ ai_gen_id }}">
+          {{ 'collection-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</collection-hero-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CollectionHero{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.container = this.querySelector('.ai-collection-hero-container-{{ ai_gen_id }}');
+        this.title = this.querySelector('.ai-collection-hero-title-{{ ai_gen_id }}');
+        this.description = this.querySelector('.ai-collection-hero-description-{{ ai_gen_id }}');
+      }
+
+      connectedCallback() {
+        this.setupScrollAnimation();
+        this.setupMouseTracking();
+      }
+
+      setupScrollAnimation() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              this.container.classList.add('ai-visible-{{ ai_gen_id }}');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1
+        });
+
+        observer.observe(this.container);
+      }
+
+      setupMouseTracking() {
+        if (this.title) {
+          this.title.addEventListener('mousemove', (e) => {
+            this.updateGlowPosition(e, this.title);
+          });
+        }
+
+        if (this.description) {
+          this.description.addEventListener('mousemove', (e) => {
+            this.updateGlowPosition(e, this.description);
+          });
+        }
+      }
+
+      updateGlowPosition(event, element) {
+        const rect = element.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+        
+        element.style.setProperty('--glow-x', xPercent + '%');
+        element.style.setProperty('--glow-y', yPercent + '%');
+        
+        const pseudo = element.querySelector('::before');
+        if (element.style.setProperty) {
+          element.style.setProperty('--mouse-x', x + 'px');
+          element.style.setProperty('--mouse-y', y + 'px');
+        }
+      }
+    }
+
+    customElements.define('collection-hero-{{ ai_gen_id }}', CollectionHero{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Collection hero",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover our curated selection of premium products designed to elevate your style and enhance your everyday experience."
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow",
+      "default": "#0066ff"
+    },
+    {
+      "type": "header",
+      "content": "Glow effect"
+    },
+    {
+      "type": "range",
+      "id": "glow_intensity",
+      "label": "Intensity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection hero"
+    }
+  ]
+}
+{% endschema %}

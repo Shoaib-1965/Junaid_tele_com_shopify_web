@@ -1,0 +1,791 @@
+{% doc %}
+  @prompt
+    Design a modern Contact Us section for a Shopify website with a dark-tech and clean professional UI.
+    Use a glassmorphism style contact form with rounded corners, soft neon blue glow shadows, and smooth hover + focus animations on input fields.
+    On hover or focus, fields should show animated blue light borders, subtle pulse shadows, and floating label effects.
+    Add a gradient blue submit button with ripple hover animation.
+    Background should be light or dark with soft blur, minimal noise texture, and depth shadows.
+    Typography must be modern, readable, and premium.
+    Overall look: high-tech, futuristic, elegant, mobile-friendly, conversion-focused, perfect for a professional Shopify store.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-contact-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    position: relative;
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    background: {{ block.settings.background_color }};
+    overflow: hidden;
+  }
+
+  .ai-contact-section-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 30%, {{ block.settings.accent_glow_color }}15 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, {{ block.settings.accent_glow_color }}10 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ai-contact-section-{{ ai_gen_id }}::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: {{ block.settings.noise_opacity | divided_by: 100.0 }};
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .ai-contact-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .ai-contact-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .ai-contact-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 16px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .ai-contact-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ai-contact-form-wrapper-{{ ai_gen_id }} {
+    background: {{ block.settings.form_background }};
+    backdrop-filter: blur({{ block.settings.blur_strength }}px);
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.form_padding }}px;
+    border: 1px solid {{ block.settings.form_border_color }};
+    box-shadow: 
+      0 8px 32px {{ block.settings.shadow_color }}{{ block.settings.shadow_opacity }},
+      0 0 0 1px {{ block.settings.accent_glow_color }}10,
+      inset 0 1px 0 {{ block.settings.form_border_color }}40;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-contact-form-wrapper-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, {{ block.settings.accent_glow_color }}20 0%, transparent 50%, {{ block.settings.accent_glow_color }}10 100%);
+    border-radius: {{ block.settings.border_radius }}px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .ai-contact-form-wrapper-{{ ai_gen_id }}:hover::before {
+    opacity: 1;
+  }
+
+  .ai-contact-form-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ai-contact-field-group-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .ai-contact-label-{{ ai_gen_id }} {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: {{ block.settings.label_color }};
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    padding: 0 4px;
+    z-index: 1;
+  }
+
+  .ai-contact-label-textarea-{{ ai_gen_id }} {
+    top: 20px;
+    transform: translateY(0);
+  }
+
+  .ai-contact-input-{{ ai_gen_id }},
+  .ai-contact-textarea-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 16px 18px;
+    background: {{ block.settings.input_background }};
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    color: {{ block.settings.input_text_color }};
+    font-size: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    position: relative;
+    z-index: 0;
+  }
+
+  .ai-contact-textarea-{{ ai_gen_id }} {
+    min-height: 140px;
+    resize: vertical;
+    padding-top: 16px;
+  }
+
+  .ai-contact-input-{{ ai_gen_id }}:focus,
+  .ai-contact-textarea-{{ ai_gen_id }}:focus,
+  .ai-contact-input-{{ ai_gen_id }}:not(:placeholder-shown),
+  .ai-contact-textarea-{{ ai_gen_id }}:not(:placeholder-shown) {
+    border-color: {{ block.settings.accent_glow_color }};
+    background: {{ block.settings.input_focus_background }};
+    box-shadow: 
+      0 0 0 3px {{ block.settings.accent_glow_color }}15,
+      0 0 20px {{ block.settings.accent_glow_color }}25,
+      0 4px 12px {{ block.settings.shadow_color }}20;
+  }
+
+  .ai-contact-input-{{ ai_gen_id }}:focus ~ .ai-contact-label-{{ ai_gen_id }},
+  .ai-contact-input-{{ ai_gen_id }}:not(:placeholder-shown) ~ .ai-contact-label-{{ ai_gen_id }},
+  .ai-contact-textarea-{{ ai_gen_id }}:focus ~ .ai-contact-label-{{ ai_gen_id }},
+  .ai-contact-textarea-{{ ai_gen_id }}:not(:placeholder-shown) ~ .ai-contact-label-{{ ai_gen_id }} {
+    top: -10px;
+    font-size: 12px;
+    color: {{ block.settings.accent_glow_color }};
+    background: {{ block.settings.form_background }};
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .ai-contact-input-{{ ai_gen_id }}::placeholder,
+  .ai-contact-textarea-{{ ai_gen_id }}::placeholder {
+    color: transparent;
+  }
+
+  .ai-contact-submit-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-contact-submit-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 18px 32px;
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    box-shadow: 
+      0 4px 15px {{ block.settings.button_background }}40,
+      0 0 20px {{ block.settings.accent_glow_color }}30;
+  }
+
+  .ai-contact-submit-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: {{ block.settings.button_hover_background }};
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+  }
+
+  .ai-contact-submit-{{ ai_gen_id }}:hover::before {
+    width: 300%;
+    height: 300%;
+  }
+
+  .ai-contact-submit-{{ ai_gen_id }}:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 25px {{ block.settings.button_background }}50,
+      0 0 30px {{ block.settings.accent_glow_color }}50;
+  }
+
+  .ai-contact-submit-{{ ai_gen_id }}:active {
+    transform: translateY(0);
+  }
+
+  .ai-contact-submit-text-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-contact-success-{{ ai_gen_id }},
+  .ai-contact-error-{{ ai_gen_id }} {
+    padding: 16px 20px;
+    border-radius: {{ block.settings.input_border_radius }}px;
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid;
+  }
+
+  .ai-contact-success-{{ ai_gen_id }} {
+    background: {{ block.settings.success_background }};
+    color: {{ block.settings.success_text_color }};
+    border-color: {{ block.settings.success_border_color }};
+  }
+
+  .ai-contact-error-{{ ai_gen_id }} {
+    background: {{ block.settings.error_background }};
+    color: {{ block.settings.error_text_color }};
+    border-color: {{ block.settings.error_border_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-contact-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_top | times: 0.6 }}px 16px {{ block.settings.section_padding_bottom | times: 0.6 }}px;
+    }
+
+    .ai-contact-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+
+    .ai-contact-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.9 }}px;
+    }
+
+    .ai-contact-form-wrapper-{{ ai_gen_id }} {
+      padding: {{ block.settings.form_padding | times: 0.7 }}px;
+    }
+
+    .ai-contact-header-{{ ai_gen_id }} {
+      margin-bottom: 35px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ai-contact-input-{{ ai_gen_id }},
+    .ai-contact-textarea-{{ ai_gen_id }},
+    .ai-contact-label-{{ ai_gen_id }},
+    .ai-contact-submit-{{ ai_gen_id }} {
+      transition: none;
+    }
+  }
+{% endstyle %}
+
+<contact-form-{{ ai_gen_id }} class="ai-contact-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-contact-container-{{ ai_gen_id }}">
+    <div class="ai-contact-header-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h2 class="ai-contact-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      {% endif %}
+      {% if block.settings.subtitle != blank %}
+        <p class="ai-contact-subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="ai-contact-form-wrapper-{{ ai_gen_id }}">
+      {%- form 'contact' -%}
+        <div class="ai-contact-form-{{ ai_gen_id }}">
+          <div class="ai-contact-field-group-{{ ai_gen_id }}">
+            <input
+              type="text"
+              name="contact[name]"
+              id="contact-name-{{ ai_gen_id }}"
+              class="ai-contact-input-{{ ai_gen_id }}"
+              value="{{ form.name }}"
+              placeholder=" "
+              required
+              aria-required="true"
+              {% if form.errors %}
+                aria-invalid="true"
+              {% endif %}
+            >
+            <label for="contact-name-{{ ai_gen_id }}" class="ai-contact-label-{{ ai_gen_id }}">
+              {{ block.settings.name_label }}
+            </label>
+          </div>
+
+          <div class="ai-contact-field-group-{{ ai_gen_id }}">
+            <input
+              type="email"
+              name="contact[email]"
+              id="contact-email-{{ ai_gen_id }}"
+              class="ai-contact-input-{{ ai_gen_id }}"
+              value="{{ form.email }}"
+              placeholder=" "
+              required
+              aria-required="true"
+              autocomplete="email"
+              {% if form.errors %}
+                aria-invalid="true"
+              {% endif %}
+            >
+            <label for="contact-email-{{ ai_gen_id }}" class="ai-contact-label-{{ ai_gen_id }}">
+              {{ block.settings.email_label }}
+            </label>
+          </div>
+
+          {% if block.settings.show_phone %}
+            <div class="ai-contact-field-group-{{ ai_gen_id }}">
+              <input
+                type="tel"
+                name="contact[phone]"
+                id="contact-phone-{{ ai_gen_id }}"
+                class="ai-contact-input-{{ ai_gen_id }}"
+                value="{{ form.phone }}"
+                placeholder=" "
+                autocomplete="tel"
+              >
+              <label for="contact-phone-{{ ai_gen_id }}" class="ai-contact-label-{{ ai_gen_id }}">
+                {{ block.settings.phone_label }}
+              </label>
+            </div>
+          {% endif %}
+
+          <div class="ai-contact-field-group-{{ ai_gen_id }}">
+            <textarea
+              name="contact[body]"
+              id="contact-message-{{ ai_gen_id }}"
+              class="ai-contact-textarea-{{ ai_gen_id }}"
+              placeholder=" "
+              required
+              aria-required="true"
+            >{{ form.body }}</textarea>
+            <label for="contact-message-{{ ai_gen_id }}" class="ai-contact-label-{{ ai_gen_id }} ai-contact-label-textarea-{{ ai_gen_id }}">
+              {{ block.settings.message_label }}
+            </label>
+          </div>
+
+          <div class="ai-contact-submit-wrapper-{{ ai_gen_id }}">
+            <button type="submit" class="ai-contact-submit-{{ ai_gen_id }}">
+              <span class="ai-contact-submit-text-{{ ai_gen_id }}">{{ block.settings.submit_text }}</span>
+            </button>
+          </div>
+
+          {%- if form.posted_successfully? -%}
+            <div class="ai-contact-success-{{ ai_gen_id }}">
+              {{ block.settings.success_message }}
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="ai-contact-error-{{ ai_gen_id }}">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</contact-form-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ContactForm{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.form = this.querySelector('form');
+        this.inputs = this.querySelectorAll('.ai-contact-input-{{ ai_gen_id }}, .ai-contact-textarea-{{ ai_gen_id }}');
+        
+        this.inputs.forEach(input => {
+          if (input.value) {
+            input.setAttribute('data-filled', 'true');
+          }
+
+          input.addEventListener('input', function() {
+            if (this.value) {
+              this.setAttribute('data-filled', 'true');
+            } else {
+              this.removeAttribute('data-filled');
+            }
+          });
+        });
+      }
+    }
+
+    customElements.define('contact-form-{{ ai_gen_id }}', ContactForm{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Get In Touch"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Have a question or want to work together? We'd love to hear from you."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "name_label",
+      "label": "Name field label",
+      "default": "Your Name"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "email_label",
+      "label": "Email field label",
+      "default": "Email Address"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Show phone field",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "phone_label",
+      "label": "Phone field label",
+      "default": "Phone Number"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "message_label",
+      "label": "Message field label",
+      "default": "Your Message"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "submit_text",
+      "label": "Submit button text",
+      "default": "Send Message"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you! Your message has been sent successfully."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "form_padding",
+      "label": "Form padding",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0a0e27"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "default": "#a0a8c8"
+    },
+    {
+      "type": "color",
+      "id": "accent_glow_color",
+      "label": "Accent glow",
+      "default": "#0066ff"
+    },
+    {
+      "type": "header",
+      "content": "Form style"
+    },
+    {
+      "type": "color",
+      "id": "form_background",
+      "label": "Form background",
+      "default": "#ffffff15"
+    },
+    {
+      "type": "color",
+      "id": "form_border_color",
+      "label": "Form border",
+      "default": "#ffffff20"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Form border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "blur_strength",
+      "label": "Blur strength",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "shadow_opacity",
+      "label": "Shadow opacity",
+      "options": [
+        { "value": "10", "label": "10%" },
+        { "value": "20", "label": "20%" },
+        { "value": "30", "label": "30%" },
+        { "value": "40", "label": "40%" },
+        { "value": "50", "label": "50%" }
+      ],
+      "default": "30"
+    },
+    {
+      "type": "range",
+      "id": "noise_opacity",
+      "label": "Noise texture opacity",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "%",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Input fields"
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Background",
+      "default": "#ffffff08"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_background",
+      "label": "Focus background",
+      "default": "#ffffff12"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Border",
+      "default": "#ffffff25"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label",
+      "default": "#a0a8c8"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Submit button"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background",
+      "default": "#0066ff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Hover background",
+      "default": "#0052cc"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Messages"
+    },
+    {
+      "type": "color",
+      "id": "success_background",
+      "label": "Success background",
+      "default": "#00ff4115"
+    },
+    {
+      "type": "color",
+      "id": "success_text_color",
+      "label": "Success text",
+      "default": "#00ff41"
+    },
+    {
+      "type": "color",
+      "id": "success_border_color",
+      "label": "Success border",
+      "default": "#00ff4140"
+    },
+    {
+      "type": "color",
+      "id": "error_background",
+      "label": "Error background",
+      "default": "#ff004115"
+    },
+    {
+      "type": "color",
+      "id": "error_text_color",
+      "label": "Error text",
+      "default": "#ff6b6b"
+    },
+    {
+      "type": "color",
+      "id": "error_border_color",
+      "label": "Error border",
+      "default": "#ff004140"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact form"
+    }
+  ]
+}
+{% endschema %}

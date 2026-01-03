@@ -1,0 +1,1388 @@
+{% doc %}
+  @prompt
+    Design a modern and professional Mobile Repair Service webpage for an ecommerce website named Junaid Telecom.
+    The business provides mobile software repair, hardware repair, and wholesale mobile accessories.
+    Page style: Clean, modern, professional, trustworthy.
+    Color theme: Dark blue, black, and white with light blue highlights.
+    Hero Section:
+    Background image of a mobile technician repairing a smartphone
+    Big heading: “Mobile Repair Experts – Software & Hardware”
+    Subtext: Fast, Affordable & Trusted Repair Services
+    Three buttons: Check Repair Prices, Book Repair Now, WhatsApp Now
+    Repair Section (Main Focus):
+    Centered two-tab layout
+    Tab 1: Software Repair
+    Android Software Fix – Rs 800
+    FRP / Google Lock – Rs 1,200
+    Dead Software / Boot Loop – Rs 1,500
+    iPhone iOS Issues – Rs 2,000
+    Tab 2: Hardware Repair
+    Screen Replacement – From Rs 2,500
+    Charging Port Repair – Rs 1,200
+    Battry Replacement – Rs 1,500
+    Speaker / Mic Repair – Rs 800
+    Use price cards with icons
+    Book Repair Section:
+    Simple booking form
+    Fields: Name, Phone Number, Device Model, Repair Type (Software/Hardware), Problem Description
+    Button: Book Now
+    Text: Same-day service available
+    Related Products Section:
+    Product cards for Batteries, Screens, Chargers, Cables, Earphones
+    Label: Wholesale Available
+    Trust Section:
+    Icons: Expert Technicians, Same-Day Service, Wholesale Support
+    Call to Action Footer:
+    Text: Need Mobile Repair Today?
+    Buttons: Call Now, Book Now, WhatsApp
+    Location: Chiniot, Pakistan
+    Make the design mobile-friendly, fast-loading, and visually attractive.
+{% enddoc %}
+
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-mobile-repair-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-repair-hero-{{ ai_gen_id }} {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: {{ block.settings.hero_bg_color }};
+    overflow: hidden;
+  }
+
+  .ai-repair-hero-bg-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .ai-repair-hero-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, {{ block.settings.overlay_color_1 }} 0%, {{ block.settings.overlay_color_2 }} 100%);
+    opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  .ai-repair-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .ai-repair-hero-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_title_size }}px;
+    color: {{ block.settings.hero_text_color }};
+    margin: 0 0 20px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .ai-repair-hero-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hero_subtitle_size }}px;
+    color: {{ block.settings.hero_text_color }};
+    margin: 0 0 30px;
+    opacity: 0.9;
+  }
+
+  .ai-repair-hero-buttons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .ai-repair-btn-{{ ai_gen_id }} {
+    padding: 14px 28px;
+    border-radius: {{ block.settings.button_radius }}px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .ai-repair-btn-primary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.primary_btn_bg }};
+    color: {{ block.settings.primary_btn_text }};
+    border-color: {{ block.settings.primary_btn_bg }};
+  }
+
+  .ai-repair-btn-primary-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.primary_btn_hover }};
+    border-color: {{ block.settings.primary_btn_hover }};
+  }
+
+  .ai-repair-btn-secondary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.secondary_btn_bg }};
+    color: {{ block.settings.secondary_btn_text }};
+    border-color: {{ block.settings.secondary_btn_border }};
+  }
+
+  .ai-repair-btn-secondary-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.secondary_btn_hover }};
+  }
+
+  .ai-repair-services-{{ ai_gen_id }} {
+    padding: 80px 20px;
+    background-color: {{ block.settings.services_bg_color }};
+  }
+
+  .ai-repair-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-repair-section-title-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: 36px;
+    color: {{ block.settings.section_title_color }};
+    margin: 0 0 40px;
+    font-weight: 700;
+  }
+
+  .ai-repair-tabs-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .ai-repair-tab-{{ ai_gen_id }} {
+    padding: 12px 30px;
+    background-color: {{ block.settings.tab_bg }};
+    color: {{ block.settings.tab_text }};
+    border: 2px solid {{ block.settings.tab_border }};
+    border-radius: {{ block.settings.tab_radius }}px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .ai-repair-tab-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.tab_hover_bg }};
+  }
+
+  .ai-repair-tab-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.tab_active_bg }};
+    color: {{ block.settings.tab_active_text }};
+    border-color: {{ block.settings.tab_active_bg }};
+  }
+
+  .ai-repair-tab-content-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-repair-tab-content-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-repair-cards-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+  }
+
+  .ai-repair-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_bg }};
+    border: 1px solid {{ block.settings.card_border }};
+    border-radius: {{ block.settings.card_radius }}px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-repair-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-repair-card-icon-{{ ai_gen_id }} {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    background-color: {{ block.settings.icon_bg }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: {{ block.settings.icon_color }};
+    font-size: 28px;
+  }
+
+  .ai-repair-card-title-{{ ai_gen_id }} {
+    font-size: 20px;
+    color: {{ block.settings.card_title_color }};
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+
+  .ai-repair-card-price-{{ ai_gen_id }} {
+    font-size: 28px;
+    color: {{ block.settings.price_color }};
+    font-weight: 700;
+    margin: 10px 0;
+  }
+
+  .ai-repair-booking-{{ ai_gen_id }} {
+    padding: 80px 20px;
+    background-color: {{ block.settings.booking_bg }};
+  }
+
+  .ai-repair-form-{{ ai_gen_id }} {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: {{ block.settings.form_bg }};
+    padding: 40px;
+    border-radius: {{ block.settings.form_radius }}px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-repair-form-group-{{ ai_gen_id }} {
+    margin-bottom: 20px;
+  }
+
+  .ai-repair-form-label-{{ ai_gen_id }} {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: {{ block.settings.form_label_color }};
+  }
+
+  .ai-repair-form-input-{{ ai_gen_id }},
+  .ai-repair-form-select-{{ ai_gen_id }},
+  .ai-repair-form-textarea-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid {{ block.settings.input_border }};
+    border-radius: {{ block.settings.input_radius }}px;
+    font-size: 16px;
+    background-color: {{ block.settings.input_bg }};
+    color: {{ block.settings.input_text }};
+  }
+
+  .ai-repair-form-textarea-{{ ai_gen_id }} {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .ai-repair-form-note-{{ ai_gen_id }} {
+    text-align: center;
+    color: {{ block.settings.note_color }};
+    font-size: 14px;
+    margin-top: 15px;
+    font-style: italic;
+  }
+
+  .ai-repair-products-{{ ai_gen_id }} {
+    padding: 80px 20px;
+    background-color: {{ block.settings.products_bg }};
+  }
+
+  .ai-repair-product-cards-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+  }
+
+  .ai-repair-product-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.product_card_bg }};
+    border: 1px solid {{ block.settings.product_card_border }};
+    border-radius: {{ block.settings.product_card_radius }}px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .ai-repair-product-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-repair-product-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 15px;
+  }
+
+  .ai-repair-product-name-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 600;
+    color: {{ block.settings.product_name_color }};
+    margin-bottom: 8px;
+  }
+
+  .ai-repair-product-badge-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 5px 12px;
+    background-color: {{ block.settings.badge_bg }};
+    color: {{ block.settings.badge_text }};
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ai-repair-trust-{{ ai_gen_id }} {
+    padding: 60px 20px;
+    background-color: {{ block.settings.trust_bg }};
+  }
+
+  .ai-repair-trust-items-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .ai-repair-trust-item-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .ai-repair-trust-icon-{{ ai_gen_id }} {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    background-color: {{ block.settings.trust_icon_bg }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: {{ block.settings.trust_icon_color }};
+    font-size: 32px;
+  }
+
+  .ai-repair-trust-title-{{ ai_gen_id }} {
+    font-size: 20px;
+    font-weight: 600;
+    color: {{ block.settings.trust_title_color }};
+    margin: 0;
+  }
+
+  .ai-repair-cta-{{ ai_gen_id }} {
+    padding: 80px 20px;
+    background-color: {{ block.settings.cta_bg }};
+    text-align: center;
+  }
+
+  .ai-repair-cta-title-{{ ai_gen_id }} {
+    font-size: 36px;
+    color: {{ block.settings.cta_text_color }};
+    margin: 0 0 30px;
+    font-weight: 700;
+  }
+
+  .ai-repair-cta-buttons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .ai-repair-location-{{ ai_gen_id }} {
+    font-size: 18px;
+    color: {{ block.settings.cta_text_color }};
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    .ai-repair-hero-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_title_size | times: 0.6 }}px;
+    }
+
+    .ai-repair-hero-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.hero_subtitle_size | times: 0.8 }}px;
+    }
+
+    .ai-repair-section-title-{{ ai_gen_id }} {
+      font-size: 28px;
+    }
+
+    .ai-repair-cards-{{ ai_gen_id }},
+    .ai-repair-product-cards-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-repair-form-{{ ai_gen_id }} {
+      padding: 25px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-mobile-repair-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <section class="ai-repair-hero-{{ ai_gen_id }}">
+    {% if block.settings.hero_image %}
+      <img
+        src="{{ block.settings.hero_image | image_url: width: 2000 }}"
+        alt="{{ block.settings.hero_image.alt | escape }}"
+        class="ai-repair-hero-bg-{{ ai_gen_id }}"
+        loading="lazy"
+      >
+    {% endif %}
+    <div class="ai-repair-hero-overlay-{{ ai_gen_id }}"></div>
+    <div class="ai-repair-hero-content-{{ ai_gen_id }}">
+      <h1 class="ai-repair-hero-title-{{ ai_gen_id }}">{{ block.settings.hero_title }}</h1>
+      <p class="ai-repair-hero-subtitle-{{ ai_gen_id }}">{{ block.settings.hero_subtitle }}</p>
+      <div class="ai-repair-hero-buttons-{{ ai_gen_id }}">
+        {% if block.settings.btn1_text != blank %}
+          <a href="{{ block.settings.btn1_link }}" class="ai-repair-btn-{{ ai_gen_id }} ai-repair-btn-primary-{{ ai_gen_id }}">
+            {{ block.settings.btn1_text }}
+          </a>
+        {% endif %}
+        {% if block.settings.btn2_text != blank %}
+          <a href="{{ block.settings.btn2_link }}" class="ai-repair-btn-{{ ai_gen_id }} ai-repair-btn-secondary-{{ ai_gen_id }}">
+            {{ block.settings.btn2_text }}
+          </a>
+        {% endif %}
+        {% if block.settings.btn3_text != blank %}
+          <a href="{{ block.settings.btn3_link }}" class="ai-repair-btn-{{ ai_gen_id }} ai-repair-btn-secondary-{{ ai_gen_id }}">
+            {{ block.settings.btn3_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <section class="ai-repair-services-{{ ai_gen_id }}">
+    <div class="ai-repair-container-{{ ai_gen_id }}">
+      <h2 class="ai-repair-section-title-{{ ai_gen_id }}">{{ block.settings.services_title }}</h2>
+      <div class="ai-repair-tabs-{{ ai_gen_id }}">
+        <button class="ai-repair-tab-{{ ai_gen_id }} active" data-tab="software">{{ block.settings.tab1_title }}</button>
+        <button class="ai-repair-tab-{{ ai_gen_id }}" data-tab="hardware">{{ block.settings.tab2_title }}</button>
+      </div>
+
+      <div class="ai-repair-tab-content-{{ ai_gen_id }} active" data-content="software">
+        <div class="ai-repair-cards-{{ ai_gen_id }}">
+          <div class="ai-repair-card-{{ ai_gen_id }}">
+            <div class="ai-repair-card-icon-{{ ai_gen_id }}">📱</div>
+            <h3 class="ai-repair-card-title-{{ ai_gen_id }}">{{ block.settings.soft1_name }}</h3>
+            <div class="ai-repair-card-price-{{ ai_gen_id }}">Rs {{ block.settings.soft1_price }}</div>
+          </div>
+          <div class="ai-repair-card-{{ ai_gen_id }}">
+            <div class="ai-repair-card-icon-{{ ai_gen_id }}">🔒</div>
+            <h3 class="ai-repair-card-title-{{ ai_gen_id }}">{{ block.settings.soft2_name }}</h3>
+            <div class="ai-repair-card-price-{{ ai_gen_id }}">Rs {{ block.settings.soft2_price }}</div>
+          </div>
+          <div class="ai-repair-card-{{ ai_gen_id }}">
+            <div class="ai-repair-card-icon-{{ ai_gen_id }}">⚠️</div>
+            <h3 class="ai-repair-card-title-{{ ai_gen_id }}">{{ block.settings.soft3_name }}</h3>
+            <div class="ai-repair-card-price-{{ ai_gen_id }}">Rs {{ block.settings.soft3_price }}</div>
+          </div>
+          <div class="ai-repair-card-{{ ai_gen_id }}">
+            <div class="ai-repair-card-icon-{{ ai_gen_id }}">🍎</div>
+            <h3 class="ai-repair-card-title-{{ ai_gen_id }}">{{ block.settings.soft4_name }}</h3>
+            <div class="ai-repair-card-price-{{ ai_gen_id }}">Rs {{ block.settings.soft4_price }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-repair-tab-content-{{ ai_gen_id }}" data-content="hardware">
+        <div class="ai-repair-cards-{{ ai_gen_id }}">
+          <div class="ai-repair-card-{{ ai_gen_id }}">
+            <div class="ai-repair-card-icon-{{ ai_gen_id }}">🖥️</div>
+            <h3 class="ai-repair-card-title-{{ ai_gen_id }}">{{ block.settings.hard1_name }}</h3>
+            <div class="ai-repair-card-price-{{ ai_gen_id }}">From Rs {{ block.settings.hard1_price }}</div>
+          </div>
+          <div class="ai-repair-card-{{ ai_gen_id }}">
+            <div class="ai-repair-card-icon-{{ ai_gen_id }}">🔌</div>
+            <h3 class="ai-repair-card-title-{{ ai_gen_id }}">{{ block.settings.hard2_name }}</h3>
+            <div class="ai-repair-card-price-{{ ai_gen_id }}">Rs {{ block.settings.hard2_price }}</div>
+          </div>
+          <div class="ai-repair-card-{{ ai_gen_id }}">
+            <div class="ai-repair-card-icon-{{ ai_gen_id }}">🔋</div>
+            <h3 class="ai-repair-card-title-{{ ai_gen_id }}">{{ block.settings.hard3_name }}</h3>
+            <div class="ai-repair-card-price-{{ ai_gen_id }}">Rs {{ block.settings.hard3_price }}</div>
+          </div>
+          <div class="ai-repair-card-{{ ai_gen_id }}">
+            <div class="ai-repair-card-icon-{{ ai_gen_id }}">🔊</div>
+            <h3 class="ai-repair-card-title-{{ ai_gen_id }}">{{ block.settings.hard4_name }}</h3>
+            <div class="ai-repair-card-price-{{ ai_gen_id }}">Rs {{ block.settings.hard4_price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ai-repair-booking-{{ ai_gen_id }}">
+    <div class="ai-repair-container-{{ ai_gen_id }}">
+      <h2 class="ai-repair-section-title-{{ ai_gen_id }}">{{ block.settings.booking_title }}</h2>
+      <form class="ai-repair-form-{{ ai_gen_id }}" action="{{ block.settings.form_action }}" method="post">
+        <div class="ai-repair-form-group-{{ ai_gen_id }}">
+          <label class="ai-repair-form-label-{{ ai_gen_id }}">Name</label>
+          <input type="text" name="name" class="ai-repair-form-input-{{ ai_gen_id }}" required>
+        </div>
+        <div class="ai-repair-form-group-{{ ai_gen_id }}">
+          <label class="ai-repair-form-label-{{ ai_gen_id }}">Phone Number</label>
+          <input type="tel" name="phone" class="ai-repair-form-input-{{ ai_gen_id }}" required>
+        </div>
+        <div class="ai-repair-form-group-{{ ai_gen_id }}">
+          <label class="ai-repair-form-label-{{ ai_gen_id }}">Device Model</label>
+          <input type="text" name="device" class="ai-repair-form-input-{{ ai_gen_id }}" required>
+        </div>
+        <div class="ai-repair-form-group-{{ ai_gen_id }}">
+          <label class="ai-repair-form-label-{{ ai_gen_id }}">Repair Type</label>
+          <select name="repair_type" class="ai-repair-form-select-{{ ai_gen_id }}" required>
+            <option value="">Select repair type</option>
+            <option value="software">Software Repair</option>
+            <option value="hardware">Hardware Repair</option>
+          </select>
+        </div>
+        <div class="ai-repair-form-group-{{ ai_gen_id }}">
+          <label class="ai-repair-form-label-{{ ai_gen_id }}">Problem Description</label>
+          <textarea name="description" class="ai-repair-form-textarea-{{ ai_gen_id }}" required></textarea>
+        </div>
+        <button type="submit" class="ai-repair-btn-{{ ai_gen_id }} ai-repair-btn-primary-{{ ai_gen_id }}" style="width: 100%;">
+          {{ block.settings.form_button_text }}
+        </button>
+        <p class="ai-repair-form-note-{{ ai_gen_id }}">{{ block.settings.form_note }}</p>
+      </form>
+    </div>
+  </section>
+
+  {% if block.settings.show_products %}
+    <section class="ai-repair-products-{{ ai_gen_id }}">
+      <div class="ai-repair-container-{{ ai_gen_id }}">
+        <h2 class="ai-repair-section-title-{{ ai_gen_id }}">{{ block.settings.products_title }}</h2>
+        <div class="ai-repair-product-cards-{{ ai_gen_id }}">
+          {% for i in (1..5) %}
+            {% assign product_key = 'product_' | append: i %}
+            {% assign product = block.settings[product_key] %}
+            {% if product %}
+              <div class="ai-repair-product-card-{{ ai_gen_id }}">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 300 }}"
+                    alt="{{ product.title | escape }}"
+                    class="ai-repair-product-image-{{ ai_gen_id }}"
+                    loading="lazy"
+                  >
+                {% endif %}
+                <div class="ai-repair-product-name-{{ ai_gen_id }}">{{ product.title }}</div>
+                <span class="ai-repair-product-badge-{{ ai_gen_id }}">{{ block.settings.wholesale_badge }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="ai-repair-trust-{{ ai_gen_id }}">
+    <div class="ai-repair-container-{{ ai_gen_id }}">
+      <div class="ai-repair-trust-items-{{ ai_gen_id }}">
+        <div class="ai-repair-trust-item-{{ ai_gen_id }}">
+          <div class="ai-repair-trust-icon-{{ ai_gen_id }}">👨‍🔧</div>
+          <h3 class="ai-repair-trust-title-{{ ai_gen_id }}">{{ block.settings.trust1_title }}</h3>
+        </div>
+        <div class="ai-repair-trust-item-{{ ai_gen_id }}">
+          <div class="ai-repair-trust-icon-{{ ai_gen_id }}">⚡</div>
+          <h3 class="ai-repair-trust-title-{{ ai_gen_id }}">{{ block.settings.trust2_title }}</h3>
+        </div>
+        <div class="ai-repair-trust-item-{{ ai_gen_id }}">
+          <div class="ai-repair-trust-icon-{{ ai_gen_id }}">📦</div>
+          <h3 class="ai-repair-trust-title-{{ ai_gen_id }}">{{ block.settings.trust3_title }}</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ai-repair-cta-{{ ai_gen_id }}">
+    <div class="ai-repair-container-{{ ai_gen_id }}">
+      <h2 class="ai-repair-cta-title-{{ ai_gen_id }}">{{ block.settings.cta_title }}</h2>
+      <div class="ai-repair-cta-buttons-{{ ai_gen_id }}">
+        {% if block.settings.cta_btn1_text != blank %}
+          <a href="{{ block.settings.cta_btn1_link }}" class="ai-repair-btn-{{ ai_gen_id }} ai-repair-btn-primary-{{ ai_gen_id }}">
+            {{ block.settings.cta_btn1_text }}
+          </a>
+        {% endif %}
+        {% if block.settings.cta_btn2_text != blank %}
+          <a href="{{ block.settings.cta_btn2_link }}" class="ai-repair-btn-{{ ai_gen_id }} ai-repair-btn-secondary-{{ ai_gen_id }}">
+            {{ block.settings.cta_btn2_text }}
+          </a>
+        {% endif %}
+        {% if block.settings.cta_btn3_text != blank %}
+          <a href="{{ block.settings.cta_btn3_link }}" class="ai-repair-btn-{{ ai_gen_id }} ai-repair-btn-secondary-{{ ai_gen_id }}">
+            {{ block.settings.cta_btn3_text }}
+          </a>
+        {% endif %}
+      </div>
+      <p class="ai-repair-location-{{ ai_gen_id }}">📍 {{ block.settings.location }}</p>
+    </div>
+  </section>
+</div>
+
+<script>
+  (function() {
+    class MobileRepairService{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.setupTabs();
+      }
+
+      setupTabs() {
+        const tabs = this.querySelectorAll('.ai-repair-tab-{{ ai_gen_id }}');
+        const contents = this.querySelectorAll('.ai-repair-tab-content-{{ ai_gen_id }}');
+
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const targetTab = tab.getAttribute('data-tab');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            tab.classList.add('active');
+            const targetContent = this.querySelector(`[data-content="${targetTab}"]`);
+            if (targetContent) {
+              targetContent.classList.add('active');
+            }
+          });
+        });
+      }
+    }
+
+    customElements.define('mobile-repair-service-{{ ai_gen_id }}', MobileRepairService{{ ai_gen_id }});
+
+    const repairBlock = document.querySelector('.ai-mobile-repair-{{ ai_gen_id }}');
+    if (repairBlock && !customElements.get('mobile-repair-service-{{ ai_gen_id }}')) {
+      const wrapper = document.createElement('mobile-repair-service-{{ ai_gen_id }}');
+      repairBlock.parentNode.insertBefore(wrapper, repairBlock);
+      wrapper.appendChild(repairBlock);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Mobile repair service",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Background image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "hero_title",
+      "label": "Title",
+      "default": "Mobile Repair Experts – Software & Hardware"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "hero_subtitle",
+      "label": "Subtitle",
+      "default": "Fast, Affordable & Trusted Repair Services"
+    },
+    {
+      "type": "range",
+      "id": "hero_title_size",
+      "label": "Title size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "hero_subtitle_size",
+      "label": "Subtitle size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "hero_bg_color",
+      "label": "Background color",
+      "default": "#0a0e27"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color_1",
+      "label": "Overlay color 1",
+      "default": "#0a0e27"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color_2",
+      "label": "Overlay color 2",
+      "default": "#1a2a5e"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 85
+    },
+    {
+      "type": "header",
+      "content": "Hero buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn1_text",
+      "label": "Button 1 text",
+      "default": "Check Repair Prices"
+    },
+    {
+      "type": "url",
+      "id": "btn1_link",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "btn2_text",
+      "label": "Button 2 text",
+      "default": "Book Repair Now"
+    },
+    {
+      "type": "url",
+      "id": "btn2_link",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "text",
+      "id": "btn3_text",
+      "label": "Button 3 text",
+      "default": "WhatsApp Now"
+    },
+    {
+      "type": "url",
+      "id": "btn3_link",
+      "label": "Button 3 link"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_bg",
+      "label": "Primary background",
+      "default": "#0066ff"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_text",
+      "label": "Primary text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_hover",
+      "label": "Primary hover",
+      "default": "#0052cc"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_bg",
+      "label": "Secondary background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_text",
+      "label": "Secondary text",
+      "default": "#0066ff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_border",
+      "label": "Secondary border",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_hover",
+      "label": "Secondary hover",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "header",
+      "content": "Services section"
+    },
+    {
+      "type": "text",
+      "id": "services_title",
+      "label": "Section title",
+      "default": "Our Repair Services"
+    },
+    {
+      "type": "color",
+      "id": "services_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "text",
+      "id": "tab1_title",
+      "label": "Tab 1 title",
+      "default": "Software Repair"
+    },
+    {
+      "type": "text",
+      "id": "tab2_title",
+      "label": "Tab 2 title",
+      "default": "Hardware Repair"
+    },
+    {
+      "type": "range",
+      "id": "tab_radius",
+      "label": "Tab border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "tab_bg",
+      "label": "Tab background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_text",
+      "label": "Tab text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_border",
+      "label": "Tab border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_bg",
+      "label": "Tab hover background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_bg",
+      "label": "Active tab background",
+      "default": "#0066ff"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text",
+      "label": "Active tab text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Software repairs"
+    },
+    {
+      "type": "text",
+      "id": "soft1_name",
+      "label": "Service 1 name",
+      "default": "Android Software Fix"
+    },
+    {
+      "type": "text",
+      "id": "soft1_price",
+      "label": "Service 1 price",
+      "default": "800"
+    },
+    {
+      "type": "text",
+      "id": "soft2_name",
+      "label": "Service 2 name",
+      "default": "FRP / Google Lock"
+    },
+    {
+      "type": "text",
+      "id": "soft2_price",
+      "label": "Service 2 price",
+      "default": "1,200"
+    },
+    {
+      "type": "text",
+      "id": "soft3_name",
+      "label": "Service 3 name",
+      "default": "Dead Software / Boot Loop"
+    },
+    {
+      "type": "text",
+      "id": "soft3_price",
+      "label": "Service 3 price",
+      "default": "1,500"
+    },
+    {
+      "type": "text",
+      "id": "soft4_name",
+      "label": "Service 4 name",
+      "default": "iPhone iOS Issues"
+    },
+    {
+      "type": "text",
+      "id": "soft4_price",
+      "label": "Service 4 price",
+      "default": "2,000"
+    },
+    {
+      "type": "header",
+      "content": "Hardware repairs"
+    },
+    {
+      "type": "text",
+      "id": "hard1_name",
+      "label": "Service 1 name",
+      "default": "Screen Replacement"
+    },
+    {
+      "type": "text",
+      "id": "hard1_price",
+      "label": "Service 1 price",
+      "default": "2,500"
+    },
+    {
+      "type": "text",
+      "id": "hard2_name",
+      "label": "Service 2 name",
+      "default": "Charging Port Repair"
+    },
+    {
+      "type": "text",
+      "id": "hard2_price",
+      "label": "Service 2 price",
+      "default": "1,200"
+    },
+    {
+      "type": "text",
+      "id": "hard3_name",
+      "label": "Service 3 name",
+      "default": "Battery Replacement"
+    },
+    {
+      "type": "text",
+      "id": "hard3_price",
+      "label": "Service 3 price",
+      "default": "1,500"
+    },
+    {
+      "type": "text",
+      "id": "hard4_name",
+      "label": "Service 4 name",
+      "default": "Speaker / Mic Repair"
+    },
+    {
+      "type": "text",
+      "id": "hard4_price",
+      "label": "Service 4 price",
+      "default": "800"
+    },
+    {
+      "type": "header",
+      "content": "Service cards"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Card border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card title color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#0066ff"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg",
+      "label": "Icon background",
+      "default": "#e6f2ff"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#0066ff"
+    },
+    {
+      "type": "header",
+      "content": "Booking section"
+    },
+    {
+      "type": "text",
+      "id": "booking_title",
+      "label": "Section title",
+      "default": "Book Your Repair"
+    },
+    {
+      "type": "text",
+      "id": "form_button_text",
+      "label": "Button text",
+      "default": "Book Now"
+    },
+    {
+      "type": "text",
+      "id": "form_note",
+      "label": "Form note",
+      "default": "Same-day service available"
+    },
+    {
+      "type": "url",
+      "id": "form_action",
+      "label": "Form action URL"
+    },
+    {
+      "type": "color",
+      "id": "booking_bg",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "form_bg",
+      "label": "Form background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "form_radius",
+      "label": "Form border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "form_label_color",
+      "label": "Label color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "input_bg",
+      "label": "Input background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_text",
+      "label": "Input text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "input_border",
+      "label": "Input border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "input_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "note_color",
+      "label": "Note color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Products section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_products",
+      "label": "Show products section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "products_title",
+      "label": "Section title",
+      "default": "Related Products"
+    },
+    {
+      "type": "text",
+      "id": "wholesale_badge",
+      "label": "Wholesale badge text",
+      "default": "Wholesale Available"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Product 2"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Product 3"
+    },
+    {
+      "type": "product",
+      "id": "product_4",
+      "label": "Product 4"
+    },
+    {
+      "type": "product",
+      "id": "product_5",
+      "label": "Product 5"
+    },
+    {
+      "type": "color",
+      "id": "products_bg",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "product_card_bg",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "product_card_border",
+      "label": "Card border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "product_card_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "product_name_color",
+      "label": "Product name color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge background",
+      "default": "#0066ff"
+    },
+    {
+      "type": "color",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Trust section"
+    },
+    {
+      "type": "text",
+      "id": "trust1_title",
+      "label": "Feature 1",
+      "default": "Expert Technicians"
+    },
+    {
+      "type": "text",
+      "id": "trust2_title",
+      "label": "Feature 2",
+      "default": "Same-Day Service"
+    },
+    {
+      "type": "text",
+      "id": "trust3_title",
+      "label": "Feature 3",
+      "default": "Wholesale Support"
+    },
+    {
+      "type": "color",
+      "id": "trust_bg",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_bg",
+      "label": "Icon background",
+      "default": "#e6f2ff"
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_color",
+      "label": "Icon color",
+      "default": "#0066ff"
+    },
+    {
+      "type": "color",
+      "id": "trust_title_color",
+      "label": "Title color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_title",
+      "label": "Title",
+      "default": "Need Mobile Repair Today?"
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Location",
+      "default": "Chiniot, Pakistan"
+    },
+    {
+      "type": "text",
+      "id": "cta_btn1_text",
+      "label": "Button 1 text",
+      "default": "Call Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_btn1_link",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "cta_btn2_text",
+      "label": "Button 2 text",
+      "default": "Book Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_btn2_link",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "text",
+      "id": "cta_btn3_text",
+      "label": "Button 3 text",
+      "default": "WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "cta_btn3_link",
+      "label": "Button 3 link"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg",
+      "label": "Background color",
+      "default": "#0a0e27"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mobile repair service"
+    }
+  ]
+}
+{% endschema %}

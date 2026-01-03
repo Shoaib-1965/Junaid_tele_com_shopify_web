@@ -1,0 +1,149 @@
+{%- doc -%}
+  This block is used to display the accelerated checkout button.
+  Intended for product-form.liquid block.
+
+  @param {string} can_add_to_cart - Whether the product can be added to the cart
+  @param form_obj - The form object
+
+  @example
+  {% content_for 'block', type: 'accelerated-checkout', id: 'accelerated-checkout', can_add_to_cart: can_add_to_cart, form_obj: form %}
+{%- enddoc -%}
+
+{% capture accelerated_checkout_button %}
+  {% if product != blank and form_obj != blank %}
+    {{ form_obj | payment_button }}
+  {% endif %}
+{% endcapture %}
+
+{% liquid
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+%}
+
+{% if accelerated_checkout_button != blank %}
+  <div
+    class="accelerated-checkout-block premium-checkout"
+    ref="acceleratedCheckoutButtonContainer"
+    {{ block.shopify_attributes }}
+    {% if request.visual_preview_mode %}
+      data-shopify-visual-preview
+    {% endif %}
+    {% unless can_add_to_cart %}
+      hidden
+    {% endunless %}
+  >
+    {{ accelerated_checkout_button }}
+  </div>
+{% endif %}
+
+<style>
+/* ========================================= */
+/* ACCELERATED CHECKOUT – PREMIUM BLUE STYLE */
+/* ========================================= */
+
+.premium-checkout .shopify-payment-button__button {
+  background: #1D3686 !important;
+  color: #ffffff !important;
+  border-radius: 14px !important;
+  border: none !important;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
+}
+
+/* Hover lift */
+.premium-checkout .shopify-payment-button__button:hover {
+  box-shadow:
+    0 0 18px rgba(255, 255, 255, 0.25),
+    0 12px 35px rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Cursor glow circle */
+.premium-checkout .shopify-payment-button__button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle var(--r, 80px) at var(--x, 50%) var(--y, 50%),
+      rgba(255, 255, 255, 0.45),
+      transparent 60%
+    );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.premium-checkout .shopify-payment-button__button:hover::after {
+  opacity: 1;
+}
+
+/* Click feedback */
+.premium-checkout .shopify-payment-button__button:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.35);
+}
+
+/* Keep all icons white */
+.premium-checkout svg {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Hide extra options if needed */
+.shopify-payment-button__more-options[aria-hidden='true'] {
+  display: none;
+}
+</style>
+
+<script>
+document.addEventListener("mousemove", e => {
+  document.querySelectorAll(
+    ".premium-checkout .shopify-payment-button__button"
+  ).forEach(btn => {
+    const rect = btn.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Random radius for organic glow
+    const radius = 60 + Math.random() * 60;
+
+    btn.style.setProperty("--x", `${x}px`);
+    btn.style.setProperty("--y", `${y}px`);
+    btn.style.setProperty("--r", `${radius}px`);
+  });
+});
+</script>
+
+{% stylesheet %}
+  .accelerated-checkout-block[data-shopify-visual-preview] {
+    width: 300px;
+  }
+
+  more-payment-options-link {
+    font-size: smaller;
+  }
+
+  more-payment-options-link a {
+    --button-color: var(--color-primary);
+  }
+
+  more-payment-options-link a:hover {
+    --button-color: var(--color-primary-hover);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.accelerated_checkout",
+  "tag": null
+}
+{% endschema %}

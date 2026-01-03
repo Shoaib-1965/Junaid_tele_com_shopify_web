@@ -1,0 +1,903 @@
+{% doc %}
+  @prompt
+    Design a Tabbed Pricing Section for mobile repairs in Shopify.
+    Create two tabs at the top:
+    Hardware Repairs | Software Services
+    Under the Hardware Repairs tab, display a clean pricing table with 3 columns:
+    
+    Service | Common Models | Starting Price (PKR)
+    
+    Add rows such as:
+    
+    Glass Replacement | Infinix Note 12, Spark 10 | Rs. 1,500 – 2,500
+    
+    Full Panel (Sunlong) | Samsung A32, A51, iPhone X | Rs. 4,500 – 15,000
+    
+    Battery Swap | All Android Models | Rs. 1,200 – 3,000
+    
+    Charging Jack | Universal | Rs. 500 – 1,000
+    
+    Table should look modern, easy to scan, and mobile-responsive with clear pricing transparency.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-pricing-tabs-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-pricing-tabs__container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-pricing-tabs__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-pricing-tabs__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 12px 0;
+    font-weight: 700;
+  }
+
+  .ai-pricing-tabs__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+  }
+
+  .ai-pricing-tabs__tab-buttons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    border-bottom: 2px solid {{ block.settings.tab_border_color }};
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ai-pricing-tabs__tab-button-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 150px;
+    padding: 16px 24px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: {{ block.settings.tab_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.tab_inactive_color }};
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .ai-pricing-tabs__tab-button-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.tab_hover_color }};
+  }
+
+  .ai-pricing-tabs__tab-button-{{ ai_gen_id }}.active {
+    color: {{ block.settings.tab_active_color }};
+    border-bottom-color: {{ block.settings.tab_active_border_color }};
+  }
+
+  .ai-pricing-tabs__content-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-pricing-tabs__content-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  .ai-pricing-tabs__table-wrapper-{{ ai_gen_id }} {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: {{ block.settings.table_border_radius }}px;
+    box-shadow: {{ block.settings.table_shadow }};
+  }
+
+  .ai-pricing-tabs__table-{{ ai_gen_id }} {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: {{ block.settings.table_background }};
+  }
+
+  .ai-pricing-tabs__table-{{ ai_gen_id }} thead {
+    background-color: {{ block.settings.header_background }};
+  }
+
+  .ai-pricing-tabs__table-{{ ai_gen_id }} th {
+    padding: 18px 16px;
+    text-align: left;
+    font-size: {{ block.settings.header_font_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.header_text_color }};
+    border-bottom: 2px solid {{ block.settings.border_color }};
+  }
+
+  .ai-pricing-tabs__table-{{ ai_gen_id }} td {
+    padding: 16px;
+    font-size: {{ block.settings.cell_font_size }}px;
+    color: {{ block.settings.cell_text_color }};
+    border-bottom: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-pricing-tabs__table-{{ ai_gen_id }} tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .ai-pricing-tabs__table-{{ ai_gen_id }} tbody tr:hover {
+    background-color: {{ block.settings.row_hover_color }};
+  }
+
+  .ai-pricing-tabs__price-{{ ai_gen_id }} {
+    font-weight: 700;
+    color: {{ block.settings.price_color }};
+    white-space: nowrap;
+  }
+
+  .ai-pricing-tabs__models-{{ ai_gen_id }} {
+    color: {{ block.settings.models_color }};
+    font-size: {{ block.settings.models_font_size }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-pricing-tabs__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+
+    .ai-pricing-tabs__subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.9 }}px;
+    }
+
+    .ai-pricing-tabs__tab-button-{{ ai_gen_id }} {
+      min-width: 120px;
+      padding: 12px 16px;
+      font-size: {{ block.settings.tab_font_size | times: 0.9 }}px;
+    }
+
+    .ai-pricing-tabs__table-{{ ai_gen_id }} th,
+    .ai-pricing-tabs__table-{{ ai_gen_id }} td {
+      padding: 12px 10px;
+      font-size: {{ block.settings.cell_font_size | times: 0.9 }}px;
+    }
+
+    .ai-pricing-tabs__table-{{ ai_gen_id }} th {
+      font-size: {{ block.settings.header_font_size | times: 0.9 }}px;
+    }
+
+    .ai-pricing-tabs__models-{{ ai_gen_id }} {
+      font-size: {{ block.settings.models_font_size | times: 0.85 }}px;
+    }
+  }
+{% endstyle %}
+
+<pricing-tabs-{{ ai_gen_id }} class="ai-pricing-tabs-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-pricing-tabs__container-{{ ai_gen_id }}">
+    {% if block.settings.section_title != blank or block.settings.section_subtitle != blank %}
+      <div class="ai-pricing-tabs__header-{{ ai_gen_id }}">
+        {% if block.settings.section_title != blank %}
+          <h2 class="ai-pricing-tabs__title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+        {% endif %}
+        {% if block.settings.section_subtitle != blank %}
+          <p class="ai-pricing-tabs__subtitle-{{ ai_gen_id }}">{{ block.settings.section_subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ai-pricing-tabs__tab-buttons-{{ ai_gen_id }}">
+      <button
+        class="ai-pricing-tabs__tab-button-{{ ai_gen_id }} active"
+        data-tab="hardware"
+        aria-selected="true"
+        role="tab"
+      >
+        {{ block.settings.tab_1_label }}
+      </button>
+      <button
+        class="ai-pricing-tabs__tab-button-{{ ai_gen_id }}"
+        data-tab="software"
+        aria-selected="false"
+        role="tab"
+      >
+        {{ block.settings.tab_2_label }}
+      </button>
+    </div>
+
+    <div class="ai-pricing-tabs__content-{{ ai_gen_id }} active" data-content="hardware" role="tabpanel">
+      <div class="ai-pricing-tabs__table-wrapper-{{ ai_gen_id }}">
+        <table class="ai-pricing-tabs__table-{{ ai_gen_id }}">
+          <thead>
+            <tr>
+              <th>{{ block.settings.col_1_header }}</th>
+              <th>{{ block.settings.col_2_header }}</th>
+              <th>{{ block.settings.col_3_header }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if block.settings.hw_row_1_service != blank %}
+              <tr>
+                <td>{{ block.settings.hw_row_1_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.hw_row_1_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.hw_row_1_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.hw_row_2_service != blank %}
+              <tr>
+                <td>{{ block.settings.hw_row_2_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.hw_row_2_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.hw_row_2_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.hw_row_3_service != blank %}
+              <tr>
+                <td>{{ block.settings.hw_row_3_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.hw_row_3_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.hw_row_3_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.hw_row_4_service != blank %}
+              <tr>
+                <td>{{ block.settings.hw_row_4_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.hw_row_4_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.hw_row_4_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.hw_row_5_service != blank %}
+              <tr>
+                <td>{{ block.settings.hw_row_5_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.hw_row_5_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.hw_row_5_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.hw_row_6_service != blank %}
+              <tr>
+                <td>{{ block.settings.hw_row_6_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.hw_row_6_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.hw_row_6_price }}</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="ai-pricing-tabs__content-{{ ai_gen_id }}" data-content="software" role="tabpanel">
+      <div class="ai-pricing-tabs__table-wrapper-{{ ai_gen_id }}">
+        <table class="ai-pricing-tabs__table-{{ ai_gen_id }}">
+          <thead>
+            <tr>
+              <th>{{ block.settings.col_1_header }}</th>
+              <th>{{ block.settings.col_2_header }}</th>
+              <th>{{ block.settings.col_3_header }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if block.settings.sw_row_1_service != blank %}
+              <tr>
+                <td>{{ block.settings.sw_row_1_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.sw_row_1_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.sw_row_1_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.sw_row_2_service != blank %}
+              <tr>
+                <td>{{ block.settings.sw_row_2_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.sw_row_2_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.sw_row_2_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.sw_row_3_service != blank %}
+              <tr>
+                <td>{{ block.settings.sw_row_3_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.sw_row_3_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.sw_row_3_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.sw_row_4_service != blank %}
+              <tr>
+                <td>{{ block.settings.sw_row_4_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.sw_row_4_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.sw_row_4_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.sw_row_5_service != blank %}
+              <tr>
+                <td>{{ block.settings.sw_row_5_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.sw_row_5_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.sw_row_5_price }}</td>
+              </tr>
+            {% endif %}
+            {% if block.settings.sw_row_6_service != blank %}
+              <tr>
+                <td>{{ block.settings.sw_row_6_service }}</td>
+                <td class="ai-pricing-tabs__models-{{ ai_gen_id }}">{{ block.settings.sw_row_6_models }}</td>
+                <td class="ai-pricing-tabs__price-{{ ai_gen_id }}">{{ block.settings.sw_row_6_price }}</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</pricing-tabs-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class PricingTabs{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.tabButtons = this.querySelectorAll('.ai-pricing-tabs__tab-button-{{ ai_gen_id }}');
+        this.tabContents = this.querySelectorAll('.ai-pricing-tabs__content-{{ ai_gen_id }}');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.tabButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            const tabName = button.getAttribute('data-tab');
+            this.switchTab(tabName);
+          });
+        });
+      }
+
+      switchTab(tabName) {
+        this.tabButtons.forEach((btn) => {
+          if (btn.getAttribute('data-tab') === tabName) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+          } else {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+          }
+        });
+
+        this.tabContents.forEach((content) => {
+          if (content.getAttribute('data-content') === tabName) {
+            content.classList.add('active');
+          } else {
+            content.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    customElements.define('pricing-tabs-{{ ai_gen_id }}', PricingTabs{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Mobile repair pricing",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title",
+      "default": "Mobile Repair Pricing"
+    },
+    {
+      "type": "text",
+      "id": "section_subtitle",
+      "label": "Subtitle",
+      "default": "Transparent pricing for all your mobile repair needs"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_label",
+      "label": "Tab 1 label",
+      "default": "Hardware Repairs"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_label",
+      "label": "Tab 2 label",
+      "default": "Software Services"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "label": "Tab font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Table headers"
+    },
+    {
+      "type": "text",
+      "id": "col_1_header",
+      "label": "Column 1 header",
+      "default": "Service"
+    },
+    {
+      "type": "text",
+      "id": "col_2_header",
+      "label": "Column 2 header",
+      "default": "Common Models"
+    },
+    {
+      "type": "text",
+      "id": "col_3_header",
+      "label": "Column 3 header",
+      "default": "Starting Price (PKR)"
+    },
+    {
+      "type": "header",
+      "content": "Hardware repairs - Row 1"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_1_service",
+      "label": "Service",
+      "default": "Glass Replacement"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_1_models",
+      "label": "Models",
+      "default": "Infinix Note 12, Spark 10"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_1_price",
+      "label": "Price",
+      "default": "Rs. 1,500 – 2,500"
+    },
+    {
+      "type": "header",
+      "content": "Hardware repairs - Row 2"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_2_service",
+      "label": "Service",
+      "default": "Full Panel (Sunlong)"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_2_models",
+      "label": "Models",
+      "default": "Samsung A32, A51, iPhone X"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_2_price",
+      "label": "Price",
+      "default": "Rs. 4,500 – 15,000"
+    },
+    {
+      "type": "header",
+      "content": "Hardware repairs - Row 3"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_3_service",
+      "label": "Service",
+      "default": "Battery Swap"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_3_models",
+      "label": "Models",
+      "default": "All Android Models"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_3_price",
+      "label": "Price",
+      "default": "Rs. 1,200 – 3,000"
+    },
+    {
+      "type": "header",
+      "content": "Hardware repairs - Row 4"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_4_service",
+      "label": "Service",
+      "default": "Charging Jack"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_4_models",
+      "label": "Models",
+      "default": "Universal"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_4_price",
+      "label": "Price",
+      "default": "Rs. 500 – 1,000"
+    },
+    {
+      "type": "header",
+      "content": "Hardware repairs - Row 5"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_5_service",
+      "label": "Service"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_5_models",
+      "label": "Models"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_5_price",
+      "label": "Price"
+    },
+    {
+      "type": "header",
+      "content": "Hardware repairs - Row 6"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_6_service",
+      "label": "Service"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_6_models",
+      "label": "Models"
+    },
+    {
+      "type": "text",
+      "id": "hw_row_6_price",
+      "label": "Price"
+    },
+    {
+      "type": "header",
+      "content": "Software services - Row 1"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_1_service",
+      "label": "Service",
+      "default": "Software Update"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_1_models",
+      "label": "Models",
+      "default": "All Models"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_1_price",
+      "label": "Price",
+      "default": "Rs. 500 – 1,500"
+    },
+    {
+      "type": "header",
+      "content": "Software services - Row 2"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_2_service",
+      "label": "Service",
+      "default": "Virus Removal"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_2_models",
+      "label": "Models",
+      "default": "All Android Models"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_2_price",
+      "label": "Price",
+      "default": "Rs. 800 – 2,000"
+    },
+    {
+      "type": "header",
+      "content": "Software services - Row 3"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_3_service",
+      "label": "Service",
+      "default": "Data Recovery"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_3_models",
+      "label": "Models",
+      "default": "All Models"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_3_price",
+      "label": "Price",
+      "default": "Rs. 1,500 – 5,000"
+    },
+    {
+      "type": "header",
+      "content": "Software services - Row 4"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_4_service",
+      "label": "Service",
+      "default": "Factory Reset"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_4_models",
+      "label": "Models",
+      "default": "All Models"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_4_price",
+      "label": "Price",
+      "default": "Rs. 300 – 800"
+    },
+    {
+      "type": "header",
+      "content": "Software services - Row 5"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_5_service",
+      "label": "Service"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_5_models",
+      "label": "Models"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_5_price",
+      "label": "Price"
+    },
+    {
+      "type": "header",
+      "content": "Software services - Row 6"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_6_service",
+      "label": "Service"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_6_models",
+      "label": "Models"
+    },
+    {
+      "type": "text",
+      "id": "sw_row_6_price",
+      "label": "Price"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "table_border_radius",
+      "label": "Table border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "header_font_size",
+      "label": "Header font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "cell_font_size",
+      "label": "Cell font size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "models_font_size",
+      "label": "Models font size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "table_shadow",
+      "label": "Table shadow",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "0 2px 8px rgba(0,0,0,0.08)",
+          "label": "Light"
+        },
+        {
+          "value": "0 4px 12px rgba(0,0,0,0.12)",
+          "label": "Medium"
+        },
+        {
+          "value": "0 8px 24px rgba(0,0,0,0.15)",
+          "label": "Strong"
+        }
+      ],
+      "default": "0 2px 8px rgba(0,0,0,0.08)"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_color",
+      "label": "Active tab text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_inactive_color",
+      "label": "Inactive tab text",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "tab_hover_color",
+      "label": "Tab hover text",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_border_color",
+      "label": "Active tab border",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Tab border",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "table_background",
+      "label": "Table background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "header_background",
+      "label": "Header background",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "cell_text_color",
+      "label": "Cell text",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "models_color",
+      "label": "Models text",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "row_hover_color",
+      "label": "Row hover background",
+      "default": "#f9f9f9"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mobile repair pricing"
+    }
+  ]
+}
+{% endschema %}

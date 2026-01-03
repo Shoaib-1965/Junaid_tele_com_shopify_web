@@ -1,0 +1,1505 @@
+{% doc %}
+  @prompt
+    Create a professional 3D card carousel hero section for a Shopify store named JUNAID TELECOM, a wholesale mobile accessories and mobile repair business in Chiniot, Pakistan, with 20 years of experience.
+    The hero should use a split layout (60% 3D rotating card carousel, 40% content) and feature 4–5 auto-rotating 3D cards for product categories (cases, chargers & cables, screen protectors, repair services, audio accessories).
+    Design should be modern and premium, using gradient backgrounds, glassmorphism cards, smooth 3D animations, and a professional color scheme.
+    Right side content must include the store name, tagline, trust badges, and Shop Now / Contact Us CTAs.
+    Build using pure HTML, CSS, and vanilla JavaScript, optimized for Shopify Liquid, fully responsive, accessible, fast-loading, and easy to customize via the Shopify theme editor.
+    Deliver a production-ready Liquid section with schema, animations, performance optimizations, and clear installation instructions., Remove all text and icons from cards. Allow image upload for each card, auto-fit and scale images perfectly within the card. Add smooth 3D tilt/flip animation with depth shadow. Make each card clickable/tappable and open a new link on tap. Fully responsive and smooth on mobile and desktop., Create a modern 3D card carousel section for Shopify with image-only cards. Remove all text and icons from cards. Allow image upload for each card, auto-fit and scale images perfectly within the card. Allow background image upload for the section. Add “Shop Now” and “Contact Us” buttons that auto-fit to content, look clean and professional, and include smooth hover/press effects (scale, color shift, shadow). Add smooth 3D tilt/flip animation with depth shadow. Make each card clickable/tappable and open a new link on tap. Fully responsive and smooth on mobile and desktop., Create a modern 3D card carousel hero section for the Shopify store “JUNAID TELECOM” (wholesale mobile accessories and mobile repair shop).
+    Use a split layout with 3D rotating image-only cards on the left and company information on the right.
+    The carousel should have 4–5 auto-rotating cards with smooth 3D flip, tilt, and parallax depth effects.
+    Cards must contain only images (no text or icons), allow image upload for each card, auto-fit and scale images perfectly, and be clickable/tappable to open a new link.
+    Allow background image upload for the section, with a modern gradient option (navy blue → purple → cyan).
+    Use glassmorphism-style cards, smooth animations, and a clean, professional look.
+    Show trust badges: 20 Years Experience, Expert Repairs, Wholesale Prices.
+    Add “Shop Now” and “Contact Us” buttons that auto-fit to content and include smooth hover and press effects (scale, color change, shadow).
+    Build using pure HTML, CSS, and vanilla JavaScript, fully responsive and mobile-first, fast-loading, and optimized for performance.
+    Deliver a complete Shopify Liquid section with schema for easy customization, including images, links, text, colors, and buttons, along with installation and customization instructions.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hero-carousel-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    min-height: {{ block.settings.section_min_height }}px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-hero-bg-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .ai-hero-bg-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-hero-bg-gradient-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background: {{ block.settings.gradient_start }};
+    background: linear-gradient(135deg, {{ block.settings.gradient_start }} 0%, {{ block.settings.gradient_middle }} 50%, {{ block.settings.gradient_end }} 100%);
+  }
+
+  .ai-hero-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: {{ block.settings.overlay_color }};
+    opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  .ai-hero-container-{{ ai_gen_id }} {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    min-height: {{ block.settings.section_min_height }}px;
+  }
+
+  .ai-hero-carousel-side-{{ ai_gen_id }} {
+    position: relative;
+    height: 600px;
+    perspective: 1500px;
+  }
+
+  .ai-hero-carousel-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  .ai-hero-card-{{ ai_gen_id }} {
+    position: absolute;
+    width: 100%;
+    max-width: 450px;
+    height: 550px;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+
+  .ai-hero-card-inner-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background: {{ block.settings.card_bg }};
+    backdrop-filter: blur({{ block.settings.card_blur }}px);
+    border-radius: {{ block.settings.card_radius }}px;
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+    overflow: hidden;
+    box-shadow: 0 30px 80px {{ block.settings.card_shadow }};
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    position: relative;
+  }
+
+  .ai-hero-card-{{ ai_gen_id }}:hover .ai-hero-card-inner-{{ ai_gen_id }} {
+    transform: translateY(-15px) rotateX(10deg);
+    box-shadow: 0 50px 120px {{ block.settings.card_shadow }};
+  }
+
+  .ai-hero-card-img-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-hero-card-{{ ai_gen_id }}:hover .ai-hero-card-img-{{ ai_gen_id }} {
+    transform: scale(1.1);
+  }
+
+  .ai-hero-card-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ block.settings.placeholder_bg }};
+    position: relative;
+  }
+
+  .ai-hero-card-placeholder-{{ ai_gen_id }} svg {
+    width: 120px;
+    height: 120px;
+    opacity: 0.15;
+  }
+
+  .ai-hero-placeholder-text-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: {{ block.settings.placeholder_text_color }};
+    font-size: 15px;
+    opacity: 0.8;
+    text-align: center;
+    padding: 0 20px;
+    font-weight: 500;
+  }
+
+  .ai-hero-content-side-{{ ai_gen_id }} {
+    padding: 40px 0;
+  }
+
+  .ai-hero-company-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.company_name_size }}px;
+    font-weight: 800;
+    color: {{ block.settings.company_name_color }};
+    margin: 0 0 16px 0;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+
+  .ai-hero-tagline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.tagline_size }}px;
+    color: {{ block.settings.tagline_color }};
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .ai-hero-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.description_color }};
+    margin: 0 0 32px 0;
+    line-height: 1.7;
+    max-width: 540px;
+  }
+
+  .ai-hero-trust-badges-{{ ai_gen_id }} {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+
+  .ai-hero-badge-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 20px;
+    background: {{ block.settings.badge_bg }};
+    backdrop-filter: blur(10px);
+    border-radius: {{ block.settings.badge_radius }}px;
+    border: 1px solid {{ block.settings.badge_border }};
+    min-width: 140px;
+  }
+
+  .ai-hero-badge-value-{{ ai_gen_id }} {
+    font-size: 28px;
+    font-weight: 800;
+    color: {{ block.settings.badge_value_color }};
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .ai-hero-badge-label-{{ ai_gen_id }} {
+    font-size: 13px;
+    color: {{ block.settings.badge_label_color }};
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .ai-hero-buttons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .ai-hero-btn-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ block.settings.btn_padding_v }}px {{ block.settings.btn_padding_h }}px;
+    border-radius: {{ block.settings.btn_radius }}px;
+    font-size: {{ block.settings.btn_font_size }}px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ai-hero-btn-primary-{{ ai_gen_id }} {
+    background: {{ block.settings.primary_btn_bg }};
+    color: {{ block.settings.primary_btn_text }};
+    box-shadow: 0 6px 20px {{ block.settings.primary_btn_shadow }};
+  }
+
+  .ai-hero-btn-primary-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.primary_btn_hover_bg }};
+    color: {{ block.settings.primary_btn_hover_text }};
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 12px 35px {{ block.settings.primary_btn_shadow }};
+  }
+
+  .ai-hero-btn-primary-{{ ai_gen_id }}:active {
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  .ai-hero-btn-secondary-{{ ai_gen_id }} {
+    background: {{ block.settings.secondary_btn_bg }};
+    color: {{ block.settings.secondary_btn_text }};
+    border: 2px solid {{ block.settings.secondary_btn_border }};
+    box-shadow: 0 6px 20px {{ block.settings.secondary_btn_shadow }};
+  }
+
+  .ai-hero-btn-secondary-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.secondary_btn_hover_bg }};
+    color: {{ block.settings.secondary_btn_hover_text }};
+    border-color: {{ block.settings.secondary_btn_hover_border }};
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 12px 35px {{ block.settings.secondary_btn_shadow }};
+  }
+
+  .ai-hero-btn-secondary-{{ ai_gen_id }}:active {
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  .ai-hero-carousel-dots-{{ ai_gen_id }} {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .ai-hero-dot-{{ ai_gen_id }} {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: {{ block.settings.dot_color }};
+    opacity: 0.3;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    padding: 0;
+  }
+
+  .ai-hero-dot-{{ ai_gen_id }}:hover {
+    opacity: 0.6;
+    transform: scale(1.3);
+  }
+
+  .ai-hero-dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+    width: 32px;
+    border-radius: 5px;
+    background: {{ block.settings.dot_active_color }};
+  }
+
+  @media screen and (max-width: 990px) {
+    .ai-hero-container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    .ai-hero-carousel-side-{{ ai_gen_id }} {
+      height: 500px;
+      order: 2;
+    }
+
+    .ai-hero-content-side-{{ ai_gen_id }} {
+      order: 1;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .ai-hero-company-name-{{ ai_gen_id }} {
+      font-size: {{ block.settings.company_name_size | times: 0.75 }}px;
+    }
+
+    .ai-hero-tagline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.tagline_size | times: 0.9 }}px;
+    }
+
+    .ai-hero-description-{{ ai_gen_id }} {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ai-hero-trust-badges-{{ ai_gen_id }} {
+      justify-content: center;
+    }
+
+    .ai-hero-buttons-{{ ai_gen_id }} {
+      justify-content: center;
+    }
+
+    .ai-hero-card-{{ ai_gen_id }} {
+      max-width: 380px;
+      height: 480px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-carousel-side-{{ ai_gen_id }} {
+      height: 420px;
+    }
+
+    .ai-hero-card-{{ ai_gen_id }} {
+      max-width: 320px;
+      height: 400px;
+    }
+
+    .ai-hero-trust-badges-{{ ai_gen_id }} {
+      gap: 12px;
+    }
+
+    .ai-hero-badge-{{ ai_gen_id }} {
+      min-width: 120px;
+      padding: 12px 16px;
+    }
+
+    .ai-hero-badge-value-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-hero-badge-label-{{ ai_gen_id }} {
+      font-size: 12px;
+    }
+
+    .ai-hero-buttons-{{ ai_gen_id }} {
+      flex-direction: column;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .ai-hero-btn-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .ai-hero-card-{{ ai_gen_id }}:active .ai-hero-card-inner-{{ ai_gen_id }} {
+      transform: translateY(-15px) rotateX(10deg);
+      box-shadow: 0 50px 120px {{ block.settings.card_shadow }};
+    }
+
+    .ai-hero-card-{{ ai_gen_id }}:active .ai-hero-card-img-{{ ai_gen_id }} {
+      transform: scale(1.1);
+    }
+
+    .ai-hero-btn-{{ ai_gen_id }}:active {
+      transform: scale(0.96);
+    }
+  }
+{% endstyle %}
+
+<hero-carousel-{{ ai_gen_id }} class="ai-hero-carousel-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-hero-bg-{{ ai_gen_id }}">
+    {% if block.settings.background_image %}
+      <img
+        src="{{ block.settings.background_image | image_url: width: 2400 }}"
+        alt="{{ block.settings.background_image.alt | escape }}"
+        loading="lazy"
+        width="2400"
+        height="1200"
+      >
+    {% else %}
+      <div class="ai-hero-bg-gradient-{{ ai_gen_id }}"></div>
+    {% endif %}
+  </div>
+
+  <div class="ai-hero-overlay-{{ ai_gen_id }}"></div>
+
+  <div class="ai-hero-container-{{ ai_gen_id }}">
+    <div class="ai-hero-carousel-side-{{ ai_gen_id }}">
+      <div class="ai-hero-carousel-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.card_1_enabled %}
+          {% if block.settings.card_1_link != blank %}
+            <a href="{{ block.settings.card_1_link }}" class="ai-hero-card-{{ ai_gen_id }}" data-card="0" target="{{ block.settings.card_1_target }}">
+          {% else %}
+            <div class="ai-hero-card-{{ ai_gen_id }}" data-card="0">
+          {% endif %}
+            <div class="ai-hero-card-inner-{{ ai_gen_id }}">
+              {% if block.settings.card_1_image %}
+                <img
+                  src="{{ block.settings.card_1_image | image_url: width: 900 }}"
+                  alt="{{ block.settings.card_1_image.alt | escape }}"
+                  class="ai-hero-card-img-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="900"
+                  height="1100"
+                >
+              {% else %}
+                <div class="ai-hero-card-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                  <div class="ai-hero-placeholder-text-{{ ai_gen_id }}">Add card 1 image</div>
+                </div>
+              {% endif %}
+            </div>
+          {% if block.settings.card_1_link != blank %}
+            </a>
+          {% else %}
+            </div>
+          {% endif %}
+        {% endif %}
+
+        {% if block.settings.card_2_enabled %}
+          {% if block.settings.card_2_link != blank %}
+            <a href="{{ block.settings.card_2_link }}" class="ai-hero-card-{{ ai_gen_id }}" data-card="1" target="{{ block.settings.card_2_target }}">
+          {% else %}
+            <div class="ai-hero-card-{{ ai_gen_id }}" data-card="1">
+          {% endif %}
+            <div class="ai-hero-card-inner-{{ ai_gen_id }}">
+              {% if block.settings.card_2_image %}
+                <img
+                  src="{{ block.settings.card_2_image | image_url: width: 900 }}"
+                  alt="{{ block.settings.card_2_image.alt | escape }}"
+                  class="ai-hero-card-img-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="900"
+                  height="1100"
+                >
+              {% else %}
+                <div class="ai-hero-card-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-2' | placeholder_svg_tag }}
+                  <div class="ai-hero-placeholder-text-{{ ai_gen_id }}">Add card 2 image</div>
+                </div>
+              {% endif %}
+            </div>
+          {% if block.settings.card_2_link != blank %}
+            </a>
+          {% else %}
+            </div>
+          {% endif %}
+        {% endif %}
+
+        {% if block.settings.card_3_enabled %}
+          {% if block.settings.card_3_link != blank %}
+            <a href="{{ block.settings.card_3_link }}" class="ai-hero-card-{{ ai_gen_id }}" data-card="2" target="{{ block.settings.card_3_target }}">
+          {% else %}
+            <div class="ai-hero-card-{{ ai_gen_id }}" data-card="2">
+          {% endif %}
+            <div class="ai-hero-card-inner-{{ ai_gen_id }}">
+              {% if block.settings.card_3_image %}
+                <img
+                  src="{{ block.settings.card_3_image | image_url: width: 900 }}"
+                  alt="{{ block.settings.card_3_image.alt | escape }}"
+                  class="ai-hero-card-img-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="900"
+                  height="1100"
+                >
+              {% else %}
+                <div class="ai-hero-card-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-3' | placeholder_svg_tag }}
+                  <div class="ai-hero-placeholder-text-{{ ai_gen_id }}">Add card 3 image</div>
+                </div>
+              {% endif %}
+            </div>
+          {% if block.settings.card_3_link != blank %}
+            </a>
+          {% else %}
+            </div>
+          {% endif %}
+        {% endif %}
+
+        {% if block.settings.card_4_enabled %}
+          {% if block.settings.card_4_link != blank %}
+            <a href="{{ block.settings.card_4_link }}" class="ai-hero-card-{{ ai_gen_id }}" data-card="3" target="{{ block.settings.card_4_target }}">
+          {% else %}
+            <div class="ai-hero-card-{{ ai_gen_id }}" data-card="3">
+          {% endif %}
+            <div class="ai-hero-card-inner-{{ ai_gen_id }}">
+              {% if block.settings.card_4_image %}
+                <img
+                  src="{{ block.settings.card_4_image | image_url: width: 900 }}"
+                  alt="{{ block.settings.card_4_image.alt | escape }}"
+                  class="ai-hero-card-img-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="900"
+                  height="1100"
+                >
+              {% else %}
+                <div class="ai-hero-card-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-4' | placeholder_svg_tag }}
+                  <div class="ai-hero-placeholder-text-{{ ai_gen_id }}">Add card 4 image</div>
+                </div>
+              {% endif %}
+            </div>
+          {% if block.settings.card_4_link != blank %}
+            </a>
+          {% else %}
+            </div>
+          {% endif %}
+        {% endif %}
+
+        {% if block.settings.card_5_enabled %}
+          {% if block.settings.card_5_link != blank %}
+            <a href="{{ block.settings.card_5_link }}" class="ai-hero-card-{{ ai_gen_id }}" data-card="4" target="{{ block.settings.card_5_target }}">
+          {% else %}
+            <div class="ai-hero-card-{{ ai_gen_id }}" data-card="4">
+          {% endif %}
+            <div class="ai-hero-card-inner-{{ ai_gen_id }}">
+              {% if block.settings.card_5_image %}
+                <img
+                  src="{{ block.settings.card_5_image | image_url: width: 900 }}"
+                  alt="{{ block.settings.card_5_image.alt | escape }}"
+                  class="ai-hero-card-img-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="900"
+                  height="1100"
+                >
+              {% else %}
+                <div class="ai-hero-card-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-5' | placeholder_svg_tag }}
+                  <div class="ai-hero-placeholder-text-{{ ai_gen_id }}">Add card 5 image</div>
+                </div>
+              {% endif %}
+            </div>
+          {% if block.settings.card_5_link != blank %}
+            </a>
+          {% else %}
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <div class="ai-hero-carousel-dots-{{ ai_gen_id }}">
+        {% if block.settings.card_1_enabled %}
+          <button class="ai-hero-dot-{{ ai_gen_id }} active" data-index="0" aria-label="View card 1"></button>
+        {% endif %}
+        {% if block.settings.card_2_enabled %}
+          <button class="ai-hero-dot-{{ ai_gen_id }}" data-index="1" aria-label="View card 2"></button>
+        {% endif %}
+        {% if block.settings.card_3_enabled %}
+          <button class="ai-hero-dot-{{ ai_gen_id }}" data-index="2" aria-label="View card 3"></button>
+        {% endif %}
+        {% if block.settings.card_4_enabled %}
+          <button class="ai-hero-dot-{{ ai_gen_id }}" data-index="3" aria-label="View card 4"></button>
+        {% endif %}
+        {% if block.settings.card_5_enabled %}
+          <button class="ai-hero-dot-{{ ai_gen_id }}" data-index="4" aria-label="View card 5"></button>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="ai-hero-content-side-{{ ai_gen_id }}">
+      {% if block.settings.company_name != blank %}
+        <h1 class="ai-hero-company-name-{{ ai_gen_id }}">{{ block.settings.company_name }}</h1>
+      {% endif %}
+
+      {% if block.settings.tagline != blank %}
+        <p class="ai-hero-tagline-{{ ai_gen_id }}">{{ block.settings.tagline }}</p>
+      {% endif %}
+
+      {% if block.settings.description != blank %}
+        <p class="ai-hero-description-{{ ai_gen_id }}">{{ block.settings.description }}</p>
+      {% endif %}
+
+      <div class="ai-hero-trust-badges-{{ ai_gen_id }}">
+        {% if block.settings.badge_1_enabled %}
+          <div class="ai-hero-badge-{{ ai_gen_id }}">
+            <div class="ai-hero-badge-value-{{ ai_gen_id }}">{{ block.settings.badge_1_value }}</div>
+            <div class="ai-hero-badge-label-{{ ai_gen_id }}">{{ block.settings.badge_1_label }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.badge_2_enabled %}
+          <div class="ai-hero-badge-{{ ai_gen_id }}">
+            <div class="ai-hero-badge-value-{{ ai_gen_id }}">{{ block.settings.badge_2_value }}</div>
+            <div class="ai-hero-badge-label-{{ ai_gen_id }}">{{ block.settings.badge_2_label }}</div>
+          </div>
+        {% endif %}
+
+        {% if block.settings.badge_3_enabled %}
+          <div class="ai-hero-badge-{{ ai_gen_id }}">
+            <div class="ai-hero-badge-value-{{ ai_gen_id }}">{{ block.settings.badge_3_value }}</div>
+            <div class="ai-hero-badge-label-{{ ai_gen_id }}">{{ block.settings.badge_3_label }}</div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-hero-buttons-{{ ai_gen_id }}">
+        {% if block.settings.shop_now_text != blank %}
+          <a href="{{ block.settings.shop_now_link }}" class="ai-hero-btn-{{ ai_gen_id }} ai-hero-btn-primary-{{ ai_gen_id }}">
+            {{ block.settings.shop_now_text }}
+          </a>
+        {% endif %}
+
+        {% if block.settings.contact_text != blank %}
+          <a href="{{ block.settings.contact_link }}" class="ai-hero-btn-{{ ai_gen_id }} ai-hero-btn-secondary-{{ ai_gen_id }}">
+            {{ block.settings.contact_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</hero-carousel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class HeroCarousel{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentIndex = 0;
+        this.cards = [];
+        this.dots = [];
+        this.autoRotateInterval = null;
+        this.isHovered = false;
+        this.isTouching = false;
+      }
+
+      connectedCallback() {
+        this.cards = Array.from(this.querySelectorAll('.ai-hero-card-{{ ai_gen_id }}'));
+        this.dots = Array.from(this.querySelectorAll('.ai-hero-dot-{{ ai_gen_id }}'));
+        
+        if (this.cards.length === 0) return;
+
+        this.setupEventListeners();
+        this.updateCarousel();
+        this.startAutoRotate();
+      }
+
+      disconnectedCallback() {
+        this.stopAutoRotate();
+      }
+
+      setupEventListeners() {
+        this.dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            this.currentIndex = index;
+            this.updateCarousel();
+            this.resetAutoRotate();
+          });
+        });
+
+        this.cards.forEach((card, index) => {
+          card.addEventListener('click', (e) => {
+            if (!card.href && index !== this.currentIndex) {
+              e.preventDefault();
+              this.currentIndex = index;
+              this.updateCarousel();
+              this.resetAutoRotate();
+            }
+          });
+        });
+
+        const carouselSide = this.querySelector('.ai-hero-carousel-side-{{ ai_gen_id }}');
+        
+        carouselSide.addEventListener('mouseenter', () => {
+          this.isHovered = true;
+          this.stopAutoRotate();
+        });
+
+        carouselSide.addEventListener('mouseleave', () => {
+          this.isHovered = false;
+          if (!this.isTouching) {
+            this.startAutoRotate();
+          }
+        });
+
+        carouselSide.addEventListener('touchstart', () => {
+          this.isTouching = true;
+          this.stopAutoRotate();
+        }, { passive: true });
+
+        carouselSide.addEventListener('touchend', () => {
+          setTimeout(() => {
+            this.isTouching = false;
+            if (!this.isHovered) {
+              this.startAutoRotate();
+            }
+          }, 3000);
+        }, { passive: true });
+      }
+
+      updateCarousel() {
+        const totalCards = this.cards.length;
+        
+        this.cards.forEach((card, index) => {
+          const offset = index - this.currentIndex;
+          const absOffset = Math.abs(offset);
+          
+          let translateX = 0;
+          let translateZ = 0;
+          let rotateY = 0;
+          let scale = 1;
+          let opacity = 1;
+          let zIndex = 0;
+
+          if (offset === 0) {
+            translateX = 0;
+            translateZ = 0;
+            rotateY = 0;
+            scale = 1;
+            opacity = 1;
+            zIndex = 10;
+          } else if (offset === 1 || offset === -(totalCards - 1)) {
+            translateX = 75;
+            translateZ = -200;
+            rotateY = -35;
+            scale = 0.75;
+            opacity = 0.5;
+            zIndex = 5;
+          } else if (offset === -1 || offset === totalCards - 1) {
+            translateX = -75;
+            translateZ = -200;
+            rotateY = 35;
+            scale = 0.75;
+            opacity = 0.5;
+            zIndex = 5;
+          } else if (absOffset === 2 || absOffset === totalCards - 2) {
+            translateX = offset > 0 ? 140 : -140;
+            translateZ = -350;
+            rotateY = offset > 0 ? -45 : 45;
+            scale = 0.6;
+            opacity = 0.25;
+            zIndex = 1;
+          } else {
+            translateX = offset > 0 ? 200 : -200;
+            translateZ = -500;
+            rotateY = offset > 0 ? -55 : 55;
+            scale = 0.5;
+            opacity = 0;
+            zIndex = 0;
+          }
+
+          card.style.transform = `translate(-50%, -50%) translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
+          card.style.opacity = opacity;
+          card.style.zIndex = zIndex;
+          card.style.pointerEvents = offset === 0 ? 'auto' : 'none';
+        });
+
+        this.dots.forEach((dot, index) => {
+          if (index === this.currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+
+      startAutoRotate() {
+        if (this.autoRotateInterval) return;
+        
+        const speed = {{ block.settings.auto_rotate_speed }};
+        if (speed > 0) {
+          this.autoRotateInterval = setInterval(() => {
+            if (!this.isHovered && !this.isTouching) {
+              this.currentIndex = (this.currentIndex + 1) % this.cards.length;
+              this.updateCarousel();
+            }
+          }, speed * 1000);
+        }
+      }
+
+      stopAutoRotate() {
+        if (this.autoRotateInterval) {
+          clearInterval(this.autoRotateInterval);
+          this.autoRotateInterval = null;
+        }
+      }
+
+      resetAutoRotate() {
+        this.stopAutoRotate();
+        this.startAutoRotate();
+      }
+    }
+
+    customElements.define('hero-carousel-{{ ai_gen_id }}', HeroCarousel{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "3D hero carousel",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Company information"
+    },
+    {
+      "type": "text",
+      "id": "company_name",
+      "label": "Company name",
+      "default": "JUNAID TELECOM"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Wholesale Mobile Accessories & Expert Repairs"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Your trusted partner for premium mobile accessories and professional repair services in Chiniot, Pakistan."
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "color",
+      "id": "gradient_start",
+      "label": "Gradient start",
+      "default": "#1e3a8a"
+    },
+    {
+      "type": "color",
+      "id": "gradient_middle",
+      "label": "Gradient middle",
+      "default": "#7c3aed"
+    },
+    {
+      "type": "color",
+      "id": "gradient_end",
+      "label": "Gradient end",
+      "default": "#06b6d4"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "rgba(0, 0, 0, 0.5)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Trust badge 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_1_enabled",
+      "label": "Enable badge 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_1_value",
+      "label": "Value",
+      "default": "20+"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_label",
+      "label": "Label",
+      "default": "Years Experience"
+    },
+    {
+      "type": "header",
+      "content": "Trust badge 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_2_enabled",
+      "label": "Enable badge 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_2_value",
+      "label": "Value",
+      "default": "Expert"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_label",
+      "label": "Label",
+      "default": "Repairs"
+    },
+    {
+      "type": "header",
+      "content": "Trust badge 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "badge_3_enabled",
+      "label": "Enable badge 3",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_3_value",
+      "label": "Value",
+      "default": "Best"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_label",
+      "label": "Label",
+      "default": "Wholesale Prices"
+    },
+    {
+      "type": "header",
+      "content": "Call to action buttons"
+    },
+    {
+      "type": "text",
+      "id": "shop_now_text",
+      "label": "Shop Now button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "shop_now_link",
+      "label": "Shop Now button link"
+    },
+    {
+      "type": "text",
+      "id": "contact_text",
+      "label": "Contact button text",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact button link"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_1_enabled",
+      "label": "Enable card 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "card_1_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "card_1_target",
+      "label": "Link target",
+      "options": [
+        {
+          "value": "_self",
+          "label": "Same window"
+        },
+        {
+          "value": "_blank",
+          "label": "New window"
+        }
+      ],
+      "default": "_self"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_2_enabled",
+      "label": "Enable card 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "card_2_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "card_2_target",
+      "label": "Link target",
+      "options": [
+        {
+          "value": "_self",
+          "label": "Same window"
+        },
+        {
+          "value": "_blank",
+          "label": "New window"
+        }
+      ],
+      "default": "_self"
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_3_enabled",
+      "label": "Enable card 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "card_3_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "card_3_target",
+      "label": "Link target",
+      "options": [
+        {
+          "value": "_self",
+          "label": "Same window"
+        },
+        {
+          "value": "_blank",
+          "label": "New window"
+        }
+      ],
+      "default": "_self"
+    },
+    {
+      "type": "header",
+      "content": "Card 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_4_enabled",
+      "label": "Enable card 4",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "card_4_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "card_4_target",
+      "label": "Link target",
+      "options": [
+        {
+          "value": "_self",
+          "label": "Same window"
+        },
+        {
+          "value": "_blank",
+          "label": "New window"
+        }
+      ],
+      "default": "_self"
+    },
+    {
+      "type": "header",
+      "content": "Card 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_5_enabled",
+      "label": "Enable card 5",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_5_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "card_5_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "card_5_target",
+      "label": "Link target",
+      "options": [
+        {
+          "value": "_self",
+          "label": "Same window"
+        },
+        {
+          "value": "_blank",
+          "label": "New window"
+        }
+      ],
+      "default": "_self"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_min_height",
+      "label": "Minimum height",
+      "min": 500,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "company_name_size",
+      "label": "Company name size",
+      "min": 32,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "tagline_size",
+      "label": "Tagline size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "header",
+      "content": "Carousel settings"
+    },
+    {
+      "type": "range",
+      "id": "auto_rotate_speed",
+      "label": "Auto-rotate speed",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "info": "Set to 0 to disable auto-rotation"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "card_blur",
+      "label": "Card glass blur",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Card border width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "badge_radius",
+      "label": "Badge border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_v",
+      "label": "Vertical padding",
+      "min": 10,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "btn_padding_h",
+      "label": "Horizontal padding",
+      "min": 20,
+      "max": 56,
+      "step": 4,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "btn_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "btn_font_size",
+      "label": "Font size",
+      "min": 14,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "header",
+      "content": "Text colors"
+    },
+    {
+      "type": "color",
+      "id": "company_name_color",
+      "label": "Company name",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tagline_color",
+      "label": "Tagline",
+      "default": "#e0e7ff"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description",
+      "default": "#cbd5e1"
+    },
+    {
+      "type": "header",
+      "content": "Card colors"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Background",
+      "default": "rgba(255, 255, 255, 0.08)"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border",
+      "default": "rgba(255, 255, 255, 0.15)"
+    },
+    {
+      "type": "color",
+      "id": "card_shadow",
+      "label": "Shadow",
+      "default": "rgba(0, 0, 0, 0.4)"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_bg",
+      "label": "Placeholder background",
+      "default": "rgba(255, 255, 255, 0.03)"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_text_color",
+      "label": "Placeholder text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Badge colors"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Background",
+      "default": "rgba(255, 255, 255, 0.1)"
+    },
+    {
+      "type": "color",
+      "id": "badge_border",
+      "label": "Border",
+      "default": "rgba(255, 255, 255, 0.2)"
+    },
+    {
+      "type": "color",
+      "id": "badge_value_color",
+      "label": "Value",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_label_color",
+      "label": "Label",
+      "default": "#cbd5e1"
+    },
+    {
+      "type": "header",
+      "content": "Dot colors"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Active dot",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Primary button colors"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_bg",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_text",
+      "label": "Text",
+      "default": "#1e3a8a"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_hover_bg",
+      "label": "Hover background",
+      "default": "#f1f5f9"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_hover_text",
+      "label": "Hover text",
+      "default": "#1e3a8a"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_shadow",
+      "label": "Shadow",
+      "default": "rgba(255, 255, 255, 0.4)"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button colors"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_bg",
+      "label": "Background",
+      "default": "rgba(255, 255, 255, 0)"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_text",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_border",
+      "label": "Border",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_hover_bg",
+      "label": "Hover background",
+      "default": "rgba(255, 255, 255, 0.15)"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_hover_text",
+      "label": "Hover text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_hover_border",
+      "label": "Hover border",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_shadow",
+      "label": "Shadow",
+      "default": "rgba(255, 255, 255, 0.25)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "3D hero carousel"
+    }
+  ]
+}
+{% endschema %}
